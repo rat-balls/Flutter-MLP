@@ -1,20 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mlp/database/db_class.dart';
+import 'package:flutter_mlp/pages/events_page.dart';
+import 'package:flutter_mlp/pages/home_page.dart';
+import 'package:flutter_mlp/pages/profil_page.dart';
+import 'package:flutter_mlp/pages/riders_page.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyApp();
+}
+
+class _MyApp extends State<MyApp> {
+  DbConnect myDb = DbConnect();
+
+  @override
+  void initState() {
+    super.initState();
+    myDb.connectToDb();
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Ecurie MLP',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
+<<<<<<< HEAD
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -66,6 +85,15 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
+=======
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const HomePage(),
+        '/profil': (context) => const ProfilPage(),
+        '/riders': (context) => const RidersPage(),
+        '/events': (context) => const EventsPage()
+      },
+>>>>>>> 7588ba6647b3373653012902405f58250889e3a8
     );
   }
 }
