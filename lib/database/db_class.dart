@@ -4,6 +4,7 @@ class DbConnect {
   static const connectionURI =
       'mongodb+srv://root:root@cluster0.g9po3tv.mongodb.net/flutter_mlp?retryWrites=true&w=majority';
 
+  // ignore: prefer_typing_uninitialized_variables
   late final _dbref;
 
   bool isConnected = false;
