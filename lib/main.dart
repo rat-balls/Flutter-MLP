@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mlp/database/db_class.dart';
+import 'package:flutter_mlp/pages/events_page.dart';
+import 'package:flutter_mlp/pages/home_page.dart';
+import 'package:flutter_mlp/pages/profil_page.dart';
+import 'package:flutter_mlp/pages/riders_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,6 +33,13 @@ class _MyApp extends State<MyApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const HomePage(),
+        '/profil': (context) => const ProfilPage(),
+        '/riders': (context) => const RidersPage(),
+        '/events': (context) => const EventsPage()
+      },
     );
   }
 }
