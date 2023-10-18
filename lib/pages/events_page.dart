@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mlp/pages/form/comp_page.dart';
-import 'package:flutter_mlp/pages/form/lesson_page%20copy.dart';
+import 'package:flutter_mlp/pages/form/lesson_page.dart';
 import 'package:flutter_mlp/pages/form/party_page.dart';
 
 import 'package:flutter_mlp/widgets/navbar.dart';
@@ -17,16 +17,16 @@ class EventsPage extends StatelessWidget {
           backgroundColor: const Color.fromARGB(255, 247, 184, 247),
         ),
         body: Container(
-            color: Color.fromARGB(255, 197, 224, 255),
+            color: const Color.fromARGB(255, 197, 224, 255),
             child: Center(
                 child: Container(
-                    margin: EdgeInsets.all(15),
+                    margin: const EdgeInsets.all(15),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Expanded(
                             child: Card(
-                          color: Color.fromARGB(255, 215, 215, 229),
+                          color: const Color.fromARGB(255, 232, 232, 237),
                           clipBehavior: Clip.hardEdge,
                           child: InkWell(
                             onTap: () {
@@ -48,7 +48,7 @@ class EventsPage extends StatelessWidget {
                         )),
                         Expanded(
                             child: Card(
-                          color: Color.fromARGB(255, 215, 215, 229),
+                          color: const Color.fromARGB(255, 232, 232, 237),
                           clipBehavior: Clip.hardEdge,
                           child: InkWell(
                             onTap: () {
@@ -71,7 +71,7 @@ class EventsPage extends StatelessWidget {
                         )),
                         Expanded(
                             child: Card(
-                          color: Color.fromARGB(255, 215, 215, 229),
+                          color: const Color.fromARGB(255, 232, 232, 237),
                           clipBehavior: Clip.hardEdge,
                           child: InkWell(
                             onTap: () {
