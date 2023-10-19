@@ -80,6 +80,7 @@ class User {
 
       for (var user in usersData) {
         userInfo = User(
+          id: user['_id'],
           firstname: user['firstname'],
           lastname: user['lastname'],
           age: user['age'],

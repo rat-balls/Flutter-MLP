@@ -1,3 +1,4 @@
+import 'package:flutter_mlp/database/db_class.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 import '../database/db_class.dart';
@@ -12,7 +13,7 @@ class Event {
   List<ObjectId>? horses;
   String? discipline;
   int? duree;
-  bool? etat;
+  bool etat = false;
 
   Event(
       {this.id,
@@ -57,4 +58,25 @@ class Event {
         return eventList;
       }
     }
+}
+
+  void insertParty(Event event) async {
+    var db = DbConnect().dbref;
+
+    var eventCollection = db.collection("Events");
+
+    try {
+      eventCollection.insertOne({
+        'type': event.type,
+        'discipline': event.discipline,
+        'date': event.date,
+        'users': event.users,
+        'creator': event.creator,
+        'etat': event.etat,
+      });
+      print('$event inséré');
+    } catch (e) {
+      print('erreur : $e');
+    }
+  }
 }

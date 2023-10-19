@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mlp/class/event.dart';
-import 'package:flutter_mlp/class/user_profil/user_profil.dart';
 import 'package:flutter_mlp/widgets/Event_card.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mango;
 
