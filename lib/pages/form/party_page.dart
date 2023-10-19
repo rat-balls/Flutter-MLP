@@ -221,7 +221,8 @@ class _FormPartyPageState extends State<FormPartyPage> {
                           var newEvent = Event(
                               type: "Soiree",
                               date: _dateTime,
-                              creator: selectedUser![0],
+                              creator: selectedUser![
+                                  0], //a remplacer par l'utilisateur connecté
                               place: "Ecurie",
                               users: selectedUser,
                               discipline: disciplineType[repasIndex]);

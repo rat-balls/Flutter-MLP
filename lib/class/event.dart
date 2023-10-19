@@ -16,17 +16,17 @@ class Event {
   int? duree;
   bool etat = false;
 
-  Event({this.id,
-    required this.type,
-    this.users,
-    required this.date,
-    required this.creator,
-    required this.place,
-    this.horses,
-    required this.discipline,
-    this.duree,
-    this.etat = false
-  });
+  Event(
+      {this.id,
+      required this.type,
+      this.users,
+      required this.date,
+      required this.creator,
+      required this.place,
+      this.horses,
+      required this.discipline,
+      this.duree,
+      this.etat = false});
 
   static Future<List<Event>?> getAllEvents() async {
     var db = DbConnect().dbref;
@@ -47,8 +47,7 @@ class Event {
             horses: event?['horses'],
             discipline: event['discipline'],
             duree: event?['duree'],
-            etat: event?['bool']
-        );
+            etat: event?['bool']);
         print(eventInfo);
         eventList.add(eventInfo);
       }
@@ -59,6 +58,9 @@ class Event {
       return eventList;
     }
   }
+
+//-----------------------------------------------------------------------
+//PROGRAMMER SOIREE
 
   void insertParty(Event event) async {
     var db = DbConnect().dbref;
@@ -80,6 +82,28 @@ class Event {
     }
   }
 
+//-----------------------------------------------------------------------
+//PROGRAMMER COURS
+
+  void insertLesson(Event event) async {
+    var db = DbConnect().dbref;
+
+    var eventCollection = db.collection("Events");
+
+    try {
+      eventCollection.insertOne({
+        'type': event.type,
+        'place': event.place,
+        'discipline': event.discipline,
+        'date': event.date,
+        'creator': event.creator,
+        'etat': event.etat
+      });
+    } catch (e) {
+      print('erreur : $e');
+    }
+  }
+//------------------------------------------------------------------------
 
   static Future<Map<DateTime, List<Event>>?> getAllCours() async {
     var db = DbConnect().dbref;
@@ -116,4 +140,3 @@ class Event {
     }
   }
 }
-
