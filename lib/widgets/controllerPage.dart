@@ -5,7 +5,6 @@ import 'package:flutter_mlp/pages/events_page.dart';
 import 'package:flutter_mlp/pages/home_page.dart';
 import 'package:flutter_mlp/pages/profil_page.dart';
 import 'package:flutter_mlp/pages/riders_page.dart';
-import 'package:flutter_mlp/pages/calendar_page.dart';
 import 'package:flutter_mlp/pages/timeline_page.dart';
 
 class ControllerPage extends StatefulWidget {

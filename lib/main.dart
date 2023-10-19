@@ -37,11 +37,6 @@ class _MyApp extends State<MyApp> {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => Login(),
-        '/profil': (context) => ProfilPage(),
-        '/riders': (context) => const RidersPage(),
-        '/events': (context) => const EventsPage(),
-        // '/register':(context) => const RegisterPage(),
         '/': (context) => const ControllerPage(),
       },
     );
