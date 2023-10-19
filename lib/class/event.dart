@@ -15,18 +15,24 @@ class Event {
   int? duree;
   bool? etat;
 
-  Event({
-    this.id,
-    required this.type,
-    this.users,
-    required this.date,
-    required this.hour,
-    required this.creator,
-    required this.place,
-    this.horses,
-    required this.discipline,
-    this.duree,
-    this.etat
-    });
-
+  Event(
+      {this.id,
+      required this.type,
+      this.users,
+      required this.date,
+      required this.hour,
+      required this.creator,
+      required this.place,
+      this.horses,
+      required this.discipline,
+      this.duree,
+      this.etat});
 }
+
+
+//type de soirée
+//personnes concernés
+
+//user 
+
+//
