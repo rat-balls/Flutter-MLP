@@ -62,12 +62,12 @@ class Event {
       }
     }
 
-    static Future<void> acceptEvent(Event event) async{
+    static Future<void> acceptEvent(ObjectId eventId) async{
       var db = DbConnect().dbref;
       var eventCollection = db.collection('Events');
       try {
         await eventCollection.update(
-          where.eq('_id', event.id),
+          where.eq('_id', eventId),
           modify
             .set('etat', true));
         print('Evenement accepter');
@@ -78,12 +78,12 @@ class Event {
       }
     }
 
-  static Future<void> deleteEvent(Event event) async{
+  static Future<void> deleteEvent(ObjectId eventId) async{
     var db = DbConnect().dbref;
     var eventCollection = db.collection('Events');
     try {
       await eventCollection.deleteOne(
-          where.eq('_id', event.id));
+          where.eq('_id', eventId));
       print('Evenement accepter');
     } catch (e){
       print('Erreur lors de la mise à jour : $e');
