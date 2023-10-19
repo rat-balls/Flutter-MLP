@@ -5,6 +5,7 @@ import 'package:mongo_dart/mongo_dart.dart';
 class User {
   User(
       {this.id,
+      this.isAdmin = false,
       required this.firstname,
       required this.lastname,
       required this.age,
@@ -13,6 +14,7 @@ class User {
       required this.email});
 
   ObjectId? id;
+  bool isAdmin;
   String firstname;
   String lastname;
   String age;
