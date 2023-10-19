@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mlp/widgets/navbar.dart';
+import 'package:flutter_mlp/widgets/navbar_sous_page.dart';
 
 class FormCompetitionPage extends StatelessWidget {
   const FormCompetitionPage({super.key});

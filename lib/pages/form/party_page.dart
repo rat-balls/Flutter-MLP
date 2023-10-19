@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mlp/widgets/navbar.dart';
+import 'package:flutter_mlp/widgets/navbar_sous_page.dart';
 
 int repasIndex = 0;
 
@@ -10,7 +10,7 @@ class FormPartyPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Formulaire soirée"),
+        title: const Text("Ajouter un évènement"),
         titleTextStyle: const TextStyle(fontSize: 18),
         backgroundColor: const Color.fromARGB(255, 247, 184, 247),
       ),
@@ -189,7 +189,7 @@ class FormPartyPage extends StatelessWidget {
               )
             ],
           )),
-      bottomNavigationBar: const CustomBottomNavigationBar(),
+      bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 }

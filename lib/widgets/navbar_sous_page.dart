@@ -25,6 +25,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
+        child: Container(
       child: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: _currentIndex,
@@ -56,6 +57,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           // Ajoutez d'autres éléments pour les autres onglets de la barre de navigation ici
         ],
       ),
-    );
+    ));
   }
 }
