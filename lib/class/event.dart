@@ -2,7 +2,7 @@ import 'package:flutter_mlp/class/user_profil/user.dart';
 import 'package:flutter_mlp/class/user_profil/horse.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
-class event {
+class Event {
   ObjectId? id;
   String type;
   List<User>? users;
@@ -15,8 +15,8 @@ class event {
   int? duree;
   bool? etat;
 
-  event(
-    {this.id,
+  Event({
+    this.id,
     required this.type,
     this.users,
     required this.date,
@@ -26,6 +26,7 @@ class event {
     this.horses,
     required this.discipline,
     this.duree,
-    this.etat});
+    this.etat
+    });
 
 }
