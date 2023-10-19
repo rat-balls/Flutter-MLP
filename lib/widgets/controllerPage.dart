@@ -34,7 +34,7 @@ class _CustomBottomNavigationBarState extends State<ControllerPage> {
           EventsPage(),
           RidersPage(),
           CalendarPage(),
-          ProfilPage()
+          ProfilPage(),
         ][_currentIndex],
         bottomNavigationBar: Container(
           child: BottomNavigationBar(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mlp/widgets/navbar_sous_page.dart';
 
 class FormCompetitionPage extends StatelessWidget {
   const FormCompetitionPage({super.key});
@@ -16,7 +15,6 @@ class FormCompetitionPage extends StatelessWidget {
         color: const Color.fromARGB(255, 197, 224, 255),
         child: const Center(child: Text('Formulaire compétition')),
       ),
-      bottomNavigationBar: const CustomBottomNavigationBar(),
     );
   }
 }
