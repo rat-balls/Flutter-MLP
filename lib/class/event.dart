@@ -38,16 +38,17 @@ class Event {
 
       for (var event in eventsData) {
         eventInfo = Event(
-            id: event['id'],
-            type: event['type'],
-            users: event?['event'],
-            date: event['date'],
-            creator: event['creator'],
-            place: event['place'],
-            horses: event?['horses'],
-            discipline: event['discipline'],
-            duree: event?['duree'],
-            etat: event?['bool']);
+          id: event['id'],
+          type: event['type'],
+          users: event?['event'],
+          date: event['date'],
+          creator: event['creator'],
+          place: event['place'],
+          horses: event?['horses'],
+          discipline: event['discipline'],
+          duree: event?['duree'],
+          etat: event?['bool'],
+        );
         print(eventInfo);
         eventList.add(eventInfo);
       }
@@ -56,6 +57,30 @@ class Event {
     } catch (e) {
       print("Erreur lors de la récupération des données : $e");
       return eventList;
+    }
+  }
+
+//-----------------------------------------------------------------------
+//PROGRAMMER COMPETITION
+
+  void insertCompetition(Event event) async {
+    var db = DbConnect().dbref;
+
+    var eventCollection = db.collection("Events");
+
+    try {
+      eventCollection.insertOne({
+        'type': event.type,
+        'date': event.date,
+        'discipline': event.discipline,
+        'users': event.users,
+        'creator': event.creator,
+        'etat': event.etat,
+        'place': event.place,
+      });
+      print('$event inséré');
+    } catch (e) {
+      print('erreur : $e');
     }
   }
 
@@ -97,7 +122,7 @@ class Event {
         'discipline': event.discipline,
         'date': event.date,
         'creator': event.creator,
-        'etat': event.etat
+        'etat': event.etat,
       });
     } catch (e) {
       print('erreur : $e');

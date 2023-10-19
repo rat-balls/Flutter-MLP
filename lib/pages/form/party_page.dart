@@ -248,7 +248,7 @@ class _FormPartyPageState extends State<FormPartyPage> {
                               creator: selectedUser![
                                   0], //a remplacer par l'utilisateur connecté
                               place: "Ecurie",
-                              users: selectedUser,
+                              users: selectedUser!.isEmpty ? selectedUser : [],
                               discipline: disciplineType[repasIndex]);
                           newEvent.insertParty(newEvent);
                           Navigator.pop(context);

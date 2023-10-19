@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_mlp/class/event.dart';
-import 'package:flutter_mlp/class/users/user.dart';
+import 'package:mongo_dart/mongo_dart.dart' as mongo;
 
 class FormLessonPage extends StatefulWidget {
   const FormLessonPage({super.key});
@@ -12,10 +12,6 @@ class FormLessonPage extends StatefulWidget {
 }
 
 class _FormLessonPageState extends State<FormLessonPage> {
-  getUser(str) async {
-    User userInfo = await User.getUserInfo(str) as User;
-  }
-
   int? _sliding = 0;
 
   int indexPlace = 0;
@@ -45,7 +41,7 @@ class _FormLessonPageState extends State<FormLessonPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Formulaire cours"),
+        title: const Text("Créer un cours"),
         titleTextStyle: const TextStyle(fontSize: 18),
         backgroundColor: const Color.fromARGB(255, 247, 184, 247),
       ),
@@ -203,11 +199,11 @@ class _FormLessonPageState extends State<FormLessonPage> {
                   child: Center(
                       child: ElevatedButton(
                     onPressed: () {
-                      var userInfo;
                       var newEvent = Event(
                           type: "Cours",
                           date: _dateTime,
-                          creator: getUser('alice@example.com'),
+                          creator: mongo.ObjectId.fromHexString(
+                              '65312da9f80d5aa0c3badc89'),
                           place: listPlace[indexPlace],
                           discipline: listDiscipline[indexDiscipline]);
                       newEvent.insertLesson(newEvent);
