@@ -5,6 +5,7 @@ import 'package:flutter_mlp/pages/events_page.dart';
 import 'package:flutter_mlp/pages/profil_page.dart';
 import 'package:flutter_mlp/pages/riders_page.dart';
 import 'package:flutter_mlp/pages/login_page.dart';
+import 'package:flutter_mlp/widgets/controllerPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,10 +38,11 @@ class _MyApp extends State<MyApp> {
       initialRoute: '/',
       routes: {
         '/': (context) => Login(),
-        '/profil': (context) => const ProfilPage(),
+        '/profil': (context) => ProfilPage(),
         '/riders': (context) => const RidersPage(),
         '/events': (context) => const EventsPage(),
         // '/register':(context) => const RegisterPage(),
+        '/': (context) => const ControllerPage(),
       },
     );
   }
