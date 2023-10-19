@@ -1,3 +1,4 @@
+import 'package:flutter_mlp/database/db_class.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 class Event {
@@ -11,7 +12,7 @@ class Event {
   List<ObjectId>? horses;
   String? discipline;
   int? duree;
-  bool? etat;
+  bool etat = false;
 
   Event(
       {this.id,
@@ -24,13 +25,12 @@ class Event {
       this.horses,
       required this.discipline,
       this.duree,
-      this.etat});
+      this.etat = false});
 }
-
 
 //type de soirée
 //personnes concernés
 
-//user 
+//user
 
 //
