@@ -76,81 +76,93 @@ class _ProfilPageState extends State<ProfilPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Profil page")),
-      body: _userDataLoaded && _horsesDataLoaded
-          ? Column(
-              children: [
-                Row(
-                  children: [
-                    Image(image: AssetImage(pp), width: 50, height: 50),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
+        body: _userDataLoaded &&
+                _horsesDataLoaded &&
+                _ownedHorsesDataLoaded &&
+                _userHorsesDpDataLoaded
+            ? ListView(
+                children: [
+                  _Section(
+                      "Mes Chevaux", _ownedHorsesDataLoaded, _ownedHorsesList!),
+                  _Section("Mes DP", _userHorsesDpDataLoaded, _userHorsesDp!),
+                  _Section("Les Chevaux", _horsesDataLoaded, _horseList!),
+                ],
+              )
+            : const Center(
+                child: CircularProgressIndicator(),
+              ));
+  }
+
+  Widget _Section(String title, bool dataLoaded, List<Horse> horseList) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          dataLoaded
+              ? SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: horseList.map((horse) {
+                      return Card(
+                        child: Column(
                           children: [
-                            Text(_user!.firstname),
-                            Text(_user!.lastname)
+                            Text(
+                              horse.name,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text("Âge: ${horse.age} ans"),
+                            Text("Robe: ${horse.coat}"),
+                            Text("Race: ${horse.breed}"),
+                            Text("Sexe: ${horse.gender}"),
+                            Text(
+                                "Spécialités: ${horse.specialties.join(', ')}"),
+                            Row(
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    User.associateUserWithHorse(
+                                        horse.id, _user!.id);
+                                  },
+                                  child: const Text("S'associer à un cheval"),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    User.addUserToHorseDp(horse.id, _user!.id);
+                                  },
+                                  child: const Text("Se mettre en DP"),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () => showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Text("Modifier le cheval"),
+                                        content: EditHorseForm(
+                                          horse: horse,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  child: const Text("Modifier le cheval"),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
-                        Text(_user!.age),
-                        Text(_user!.phonenumbers),
-                        Text(_user!.email),
-                        Text(_user!.ffe)
-                      ],
-                    )
-                  ],
-                ),
-                ElevatedButton(
-                  onPressed: () => showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text("Modifications des informations"),
-                        content: EditUserForm(user: _user!),
                       );
-                    },
+                    }).toList(),
                   ),
-                  child: const Text("Modifier mon profil"),
+                )
+              : const Center(
+                  child: CircularProgressIndicator(),
                 ),
-                ElevatedButton(
-                  onPressed: () => showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text("Ajout d'un cheval"),
-                        content: AddHorseForm(
-                          user: _user!,
-                        ),
-                      );
-                    },
-                  ),
-                  child: const Text("Ajouter un cheval"),
-                ),
-                const Text("Mes chevaux"),
-                _ownedHorsesDataLoaded && _userDataLoaded
-                    ? HorseListWidget(
-                        userId: _user!.id, horseList: _ownedHorsesList)
-                    : const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                const Text("Mes DP"),
-                _userHorsesDpDataLoaded && _userDataLoaded
-                    ? HorseListWidget(
-                        userId: _user!.id, horseList: _userHorsesDp)
-                    : const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                const Text("S'associer à un cheval"),
-                _horsesDataLoaded && _userDataLoaded
-                    ? HorseListWidget(userId: _user!.id, horseList: _horseList)
-                    : const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-              ],
-            )
-          : const Center(
-              child: CircularProgressIndicator(),
-            ),
+        ],
+      ),
     );
   }
 }
