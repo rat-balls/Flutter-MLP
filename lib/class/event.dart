@@ -1,5 +1,3 @@
-import 'package:flutter_mlp/class/user_profil/user.dart';
-import 'package:flutter_mlp/class/user_profil/horse.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 class Event {
