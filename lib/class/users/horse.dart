@@ -83,4 +83,25 @@ class Horse {
       print('Erreur lors de la mise à jour des informations du cheval : $e');
     }
   }
+
+  static Future<void> addHorse(Horse horse) async {
+    var db = DbConnect().dbref;
+    var horsesCollection = db.collection('Horses');
+
+    try {
+      await horsesCollection.insertOne({
+        "name": horse.name,
+        "age": horse.age,
+        "coat": horse.coat,
+        "breed": horse.breed,
+        "gender": horse.gender,
+        "specialties": horse.specialties,
+        "owner": horse.owner,
+        "dp": horse.dp,
+      });
+      print("Cheval ajouté avec succès");
+    } catch (e) {
+      print("Erreur lors de l'ajout du cheval : $e");
+    }
+  }
 }

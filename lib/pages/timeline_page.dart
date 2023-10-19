@@ -1,12 +1,12 @@
 import 'dart:ffi';
 import 'package:flutter/material.dart';
-import 'package:flutter_mlp/class/dummy_class.dart';
 import 'package:flutter_mlp/widgets/controllerPage.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class TimelineCalendarPage extends StatefulWidget {
-  const TimelineCalendarPage({Key? key, }) : super(key: key);
-
+  const TimelineCalendarPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _TimelineCalendarPageState createState() => _TimelineCalendarPageState();
@@ -48,63 +48,63 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
     await showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('New Event'),
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              buildTextField(
-                  controller: titleController, hint: 'Enter Title'),
-              const SizedBox(
-                height: 20.0,
+              title: const Text('New Event'),
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  buildTextField(
+                      controller: titleController, hint: 'Enter Title'),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  buildTextField(
+                      controller: descpController, hint: 'Enter Description'),
+                ],
               ),
-              buildTextField(
-                  controller: descpController, hint: 'Enter Description'),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                if (titleController.text.isEmpty &&
-                    descpController.text.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Please enter title & description'),
-                      duration: Duration(seconds: 3),
-                    ),
-                  );
-                  //Navigator.pop(context);
-                  return;
-                } else {
-                  setState(() {
-                    if (mySelectedEvents[selectedCalendarDate] != null) {
-                      mySelectedEvents[selectedCalendarDate]?.add(MyEvents(
-                          eventTitle: titleController.text,
-                          eventDescp: descpController.text));
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Cancel'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    if (titleController.text.isEmpty &&
+                        descpController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please enter title & description'),
+                          duration: Duration(seconds: 3),
+                        ),
+                      );
+                      //Navigator.pop(context);
+                      return;
                     } else {
-                      mySelectedEvents[selectedCalendarDate!] = [
-                        MyEvents(
-                            eventTitle: titleController.text,
-                            eventDescp: descpController.text)
-                      ];
+                      setState(() {
+                        if (mySelectedEvents[selectedCalendarDate] != null) {
+                          mySelectedEvents[selectedCalendarDate]?.add(MyEvents(
+                              eventTitle: titleController.text,
+                              eventDescp: descpController.text));
+                        } else {
+                          mySelectedEvents[selectedCalendarDate!] = [
+                            MyEvents(
+                                eventTitle: titleController.text,
+                                eventDescp: descpController.text)
+                          ];
+                        }
+                      });
+
+                      titleController.clear();
+                      descpController.clear();
+
+                      Navigator.pop(context);
+                      return;
                     }
-                  });
-
-                  titleController.clear();
-                  descpController.clear();
-
-                  Navigator.pop(context);
-                  return;
-                }
-              },
-              child: const Text('Add'),
-            ),
-          ],
-        ));
+                  },
+                  child: const Text('Add'),
+                ),
+              ],
+            ));
   }
 
   Widget buildTextField(
@@ -115,13 +115,15 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
       decoration: InputDecoration(
         labelText: hint ?? '',
         focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Color.fromARGB(255, 247, 184, 247), width: 1.5),
+          borderSide: const BorderSide(
+              color: Color.fromARGB(255, 247, 184, 247), width: 1.5),
           borderRadius: BorderRadius.circular(
             10.0,
           ),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Color.fromARGB(255, 247, 184, 247), width: 1.5),
+          borderSide: const BorderSide(
+              color: Color.fromARGB(255, 247, 184, 247), width: 1.5),
           borderRadius: BorderRadius.circular(
             10.0,
           ),
@@ -143,7 +145,8 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
                 borderRadius: BorderRadius.all(
                   Radius.circular(10),
                 ),
-                side: BorderSide(color: Color.fromARGB(255, 247, 184, 247), width: 2.0),
+                side: BorderSide(
+                    color: Color.fromARGB(255, 247, 184, 247), width: 2.0),
               ),
               child: TableCalendar(
                 focusedDay: _focusedCalendarDate,
@@ -167,15 +170,17 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
                 eventLoader: _listOfDayEvents,
                 // Calendar Header Styling
                 headerStyle: const HeaderStyle(
-                  titleTextStyle:
-                  TextStyle(color: Color.fromARGB(255, 255, 240, 240), fontSize: 20.0),
+                  titleTextStyle: TextStyle(
+                      color: Color.fromARGB(255, 255, 240, 240),
+                      fontSize: 20.0),
                   decoration: BoxDecoration(
                       color: Color.fromARGB(255, 247, 184, 247),
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10),
                           topRight: Radius.circular(10))),
-                  formatButtonTextStyle:
-                    TextStyle(color: Color.fromARGB(255, 255, 240, 240), fontSize: 16.0),
+                  formatButtonTextStyle: TextStyle(
+                      color: Color.fromARGB(255, 255, 240, 240),
+                      fontSize: 16.0),
                   formatButtonDecoration: BoxDecoration(
                     color: Color.fromARGB(255, 247, 184, 247),
                     borderRadius: BorderRadius.all(
@@ -196,12 +201,14 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
                 // Calendar Days Styling
                 daysOfWeekStyle: const DaysOfWeekStyle(
                   // Weekend days color (Sat,Sun)
-                  weekendStyle: TextStyle(color: Color.fromARGB(255, 160, 0, 218)),
+                  weekendStyle:
+                      TextStyle(color: Color.fromARGB(255, 160, 0, 218)),
                 ),
                 // Calendar Dates styling
                 calendarStyle: const CalendarStyle(
                   // Weekend dates color (Sat & Sun Column)
-                  weekendTextStyle: TextStyle(color: Color.fromARGB(255, 160, 0, 218)),
+                  weekendTextStyle:
+                      TextStyle(color: Color.fromARGB(255, 160, 0, 218)),
                   // highlighted color for today
                   todayDecoration: BoxDecoration(
                     color: Color.fromARGB(255, 160, 0, 218),
@@ -213,7 +220,8 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
                     shape: BoxShape.circle,
                   ),
                   markerDecoration: BoxDecoration(
-                      color: Color.fromARGB(255, 160, 0, 218), shape: BoxShape.circle),
+                      color: Color.fromARGB(255, 160, 0, 218),
+                      shape: BoxShape.circle),
                 ),
                 selectedDayPredicate: (currentSelectedDate) {
                   // as per the documentation 'selectedDayPredicate' needs to determine
@@ -233,7 +241,7 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
               ),
             ),
             ..._listOfDayEvents(selectedCalendarDate!).map(
-                  (myEvents) => ListTile(
+              (myEvents) => ListTile(
                 leading: const Icon(
                   Icons.done,
                   color: Colors.pinkAccent,
@@ -259,7 +267,8 @@ class Cours {
   final String discipline;
   final bool etat;
 
-  Cours({required this.chevaux,
+  Cours({
+    required this.chevaux,
     required this.terrain,
     required this.duree,
     required this.discipline,

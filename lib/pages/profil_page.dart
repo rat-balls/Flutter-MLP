@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mlp/class/users/horse.dart';
 import 'package:flutter_mlp/class/users/user.dart';
 import 'package:flutter_mlp/class/user_profil/user_profil.dart';
-import 'package:flutter_mlp/widgets/edit_horse_form.dart';
-import 'package:flutter_mlp/widgets/edit_user_form.dart';
-import 'package:flutter_mlp/widgets/horse_card.dart';
-import 'package:flutter_mlp/widgets/horses_list.dart';
+import 'package:flutter_mlp/widgets/profil/add_horse_form.dart';
+import 'package:flutter_mlp/widgets/profil/edit_horse_form.dart';
+import 'package:flutter_mlp/widgets/profil/edit_user_form.dart';
+import 'package:flutter_mlp/widgets/profil/horse_card.dart';
+import 'package:flutter_mlp/widgets/profil/horses_list.dart';
 
 class ProfilPage extends StatefulWidget {
   ProfilPage({super.key});
@@ -29,7 +30,7 @@ class _ProfilPageState extends State<ProfilPage> {
   bool _userHorsesDpDataLoaded = false;
 
   Future<void> _getUserInfo() async {
-    User? userInfo = await User.getUserInfo('email@edu.esiee-it.fr');
+    User? userInfo = await User.getUserInfo('bob@example.com');
     setState(() {
       _user = userInfo;
       _userDataLoaded = true;
@@ -110,6 +111,20 @@ class _ProfilPageState extends State<ProfilPage> {
                     },
                   ),
                   child: const Text("Modifier mon profil"),
+                ),
+                ElevatedButton(
+                  onPressed: () => showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text("Ajout d'un cheval"),
+                        content: AddHorseForm(
+                          user: _user!,
+                        ),
+                      );
+                    },
+                  ),
+                  child: const Text("Ajouter un cheval"),
                 ),
                 const Text("Mes chevaux"),
                 _ownedHorsesDataLoaded && _userDataLoaded
