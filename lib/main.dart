@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mlp/database/db_class.dart';
-import 'package:flutter_mlp/pages/events_page.dart';
-import 'package:flutter_mlp/pages/home_page.dart';
-import 'package:flutter_mlp/pages/profil_page.dart';
-import 'package:flutter_mlp/pages/riders_page.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_mlp/widgets/controllerPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,10 +32,7 @@ class _MyApp extends State<MyApp> {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => ProfilPage(), //const HomePage(),
-        '/profil': (context) => ProfilPage(),
-        '/riders': (context) => const RidersPage(),
-        '/events': (context) => const EventsPage()
+        '/': (context) => const ControllerPage(),
       },
     );
   }
