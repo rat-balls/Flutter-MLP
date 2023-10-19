@@ -63,6 +63,33 @@ class Event {
     }
   }
 
+//-----------------------------------------------------------------------
+//PROGRAMMER COMPETITION
+
+  void insertCompetition(Event event) async {
+    var db = DbConnect().dbref;
+
+    var eventCollection = db.collection("Events");
+
+    try {
+      eventCollection.insertOne({
+        'type': event.type,
+        'date': event.date,
+        'discipline': event.discipline,
+        'users': event.users,
+        'creator': event.creator,
+        'etat': event.etat,
+        'place': event.place,
+      });
+      print('$event inséré');
+    } catch (e) {
+      print('erreur : $e');
+    }
+  }
+
+//-----------------------------------------------------------------------
+//PROGRAMMER SOIREE
+
   void insertParty(Event event) async {
     var db = DbConnect().dbref;
 
@@ -83,6 +110,28 @@ class Event {
     }
   }
 
+//-----------------------------------------------------------------------
+//PROGRAMMER COURS
+
+  void insertLesson(Event event) async {
+    var db = DbConnect().dbref;
+
+    var eventCollection = db.collection("Events");
+
+    try {
+      eventCollection.insertOne({
+        'type': event.type,
+        'place': event.place,
+        'discipline': event.discipline,
+        'date': event.date,
+        'creator': event.creator,
+        'etat': event.etat,
+      });
+    } catch (e) {
+      print('erreur : $e');
+    }
+  }
+//------------------------------------------------------------------------
 
   static Future<Map<DateTime, List<Event>>?> getAllEventsTimed() async {
     var db = DbConnect().dbref;
@@ -121,4 +170,3 @@ class Event {
     }
   }
 }
-

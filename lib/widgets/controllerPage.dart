@@ -29,15 +29,21 @@ class _CustomBottomNavigationBarState extends State<ControllerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Ajouter un évènement"),
+          title: [
+            const Text("Accueil"),
+            const Text("Créer des évènements"),
+            const Text("Liste des cavalier et chevaux"),
+            const Text("Calendrier"),
+            const Text("Profil"),
+          ][_currentIndex],
           titleTextStyle: const TextStyle(fontSize: 18),
           backgroundColor: const Color.fromARGB(255, 247, 184, 247),
         ),
         body: [
-          HomePage(),
-          EventsPage(),
-          RidersPage(),
-          TimelineCalendarPage(),
+          const HomePage(),
+          const EventsPage(),
+          const RidersPage(),
+          const TimelineCalendarPage(),
           ProfilPage(),
         ][_currentIndex],
         bottomNavigationBar: Container(
