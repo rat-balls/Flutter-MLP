@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mlp/widgets/navbar_sous_page.dart';
 
 class FormLessonPage extends StatelessWidget {
   const FormLessonPage({super.key});
@@ -16,7 +15,6 @@ class FormLessonPage extends StatelessWidget {
         color: const Color.fromARGB(255, 197, 224, 255),
         child: const Center(child: Text('Formulaire cours')),
       ),
-      bottomNavigationBar: const CustomBottomNavigationBar(),
     );
   }
 }
