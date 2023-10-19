@@ -1,12 +1,18 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mlp/pages/events_page.dart';
 import 'package:flutter_mlp/pages/home_page.dart';
 import 'package:flutter_mlp/pages/profil_page.dart';
 import 'package:flutter_mlp/pages/riders_page.dart';
 import 'package:flutter_mlp/pages/calendar_page.dart';
+import 'package:flutter_mlp/pages/timeline_page.dart';
 
 class ControllerPage extends StatefulWidget {
   const ControllerPage({super.key});
+  static const Color _selectedItemColor = Color.fromARGB(255, 160, 0, 218);
+  static const Color _unselectedItemColor = Color.fromARGB(255, 255, 240, 240);
+  static const Color _bgColor = Color.fromARGB(255, 247, 184, 247);
 
   @override
   State<ControllerPage> createState() => _CustomBottomNavigationBarState();
@@ -33,16 +39,16 @@ class _CustomBottomNavigationBarState extends State<ControllerPage> {
           HomePage(),
           EventsPage(),
           RidersPage(),
-          CalendarPage(),
+          TimelineCalendarPage(),
           ProfilPage(),
         ][_currentIndex],
         bottomNavigationBar: Container(
           child: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             currentIndex: _currentIndex,
-            selectedItemColor: const Color.fromARGB(255, 160, 0, 218),
-            unselectedItemColor: const Color.fromARGB(255, 255, 240, 240),
-            backgroundColor: const Color.fromARGB(255, 247, 184, 247),
+            selectedItemColor: ControllerPage._selectedItemColor,
+            unselectedItemColor: ControllerPage._unselectedItemColor,
+            backgroundColor: ControllerPage._bgColor,
             onTap: (index) => setCurrentIndex(index),
             items: const [
               BottomNavigationBarItem(
