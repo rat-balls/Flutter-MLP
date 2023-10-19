@@ -5,12 +5,12 @@ import 'package:mongo_dart/mongo_dart.dart';
 class Event {
   ObjectId? id;
   String type;
-  List<User>? users;
+  List<ObjectId>? users;
   DateTime date;
   DateTime hour;
-  User creator;
+  ObjectId creator;
   String? place;
-  List<Horse>? horses;
+  List<ObjectId>? horses;
   String? discipline;
   int? duree;
   bool? etat;
