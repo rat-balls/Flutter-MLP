@@ -1,11 +1,12 @@
 import 'package:mongo_dart/mongo_dart.dart';
 
+import '../database/db_class.dart';
+
 class Event {
   ObjectId? id;
   String type;
   List<ObjectId>? users;
   DateTime date;
-  DateTime hour;
   ObjectId creator;
   String? place;
   List<ObjectId>? horses;
@@ -18,19 +19,42 @@ class Event {
       required this.type,
       this.users,
       required this.date,
-      required this.hour,
       required this.creator,
       required this.place,
       this.horses,
       required this.discipline,
       this.duree,
       this.etat});
+
+    static Future<List<Event>?> getAllEvents() async {
+      var db = DbConnect().dbref;
+      var eventCollection = db.collection('Events');
+      List<Event> eventList = [];
+      Event eventInfo;
+      try {
+        var eventsData = await eventCollection.find().toList();
+
+        for (var event in eventsData) {
+          eventInfo = Event(
+              id: event['id'],
+              type: event['type'],
+              users: event?['event'],
+              date: event['date'],
+              creator: event['creator'],
+              place: event['place'],
+              horses: event?['horses'],
+              discipline: event['discipline'],
+              duree: event?['duree'],
+              etat: event?['bool']
+          );
+
+          eventList.add(eventInfo);
+        }
+        print(eventList);
+        return eventList;
+      } catch (e) {
+        print("Erreur lors de la récupération des données : $e");
+        return eventList;
+      }
+    }
 }
-
-
-//type de soirée
-//personnes concernés
-
-//user 
-
-//
