@@ -16,7 +16,7 @@ class EventCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(event.type),
-            Text('${event.date} ${event.hour}'),
+            Text('${event.date}'),
             Text(
                 'Présent: ${event.users!.isNotEmpty ? event.users?.join(', ') : 'Aucun'}'),
           ],

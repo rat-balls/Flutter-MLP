@@ -16,18 +16,17 @@ class Event {
   int? duree;
   bool etat = false;
 
-  Event(
-      {this.id,
-      required this.type,
-      this.users,
-      required this.date,
-      required this.creator,
-      required this.place,
-      this.horses,
-      required this.discipline,
-      this.duree,
-      this.etat}
-      );
+  Event({this.id,
+    required this.type,
+    this.users,
+    required this.date,
+    required this.creator,
+    required this.place,
+    this.horses,
+    required this.discipline,
+    this.duree,
+    this.etat = false
+  });
 
   static Future<List<Event>?> getAllEvents() async {
     var db = DbConnect().dbref;
@@ -59,7 +58,7 @@ class Event {
       print("Erreur lors de la récupération des données : $e");
       return eventList;
     }
-}
+  }
 
   void insertParty(Event event) async {
     var db = DbConnect().dbref;
@@ -80,7 +79,7 @@ class Event {
       print('erreur : $e');
     }
   }
-}
+
 
   static Future<Map<DateTime, List<Event>>?> getAllCours() async {
     var db = DbConnect().dbref;
@@ -93,17 +92,17 @@ class Event {
 
       for (var event in eventsData) {
         eventInfo = Event(
-            id: event['id'],
-            type: event['type'],
-            users: event?['users'],
-            creator: event['creator'],
-            date: event['date'],
-            discipline: event['discipline'],
-            duree: event?['duree'],
-            etat: event?['etat'],
-            place: event['place'],
+          id: event['id'],
+          type: event['type'],
+          users: event?['users'],
+          creator: event['creator'],
+          date: event['date'],
+          discipline: event['discipline'],
+          duree: event?['duree'],
+          etat: event?['etat'],
+          place: event['place'],
         );
-        if(eventMap[eventInfo.date] == null) {
+        if (eventMap[eventInfo.date] == null) {
           eventMap[eventInfo.date] = [];
         }
         eventMap[eventInfo.date]?.add(eventInfo);
@@ -117,3 +116,4 @@ class Event {
     }
   }
 }
+
