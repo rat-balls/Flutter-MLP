@@ -50,7 +50,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
             if (value == 4) {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => const ProfilPage(),
+                  builder: (context) => ProfilPage(),
                 ),
               );
             }
