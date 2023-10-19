@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:flutter_mlp/class/event.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../class/app_colors.dart';
+
 class TimelineCalendarPage extends StatefulWidget {
   const TimelineCalendarPage({Key? key, }) : super(key: key);
 
@@ -23,8 +25,7 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
   bool _coursLoaded = false;
 
   Future<void> _getCoursInfo() async {
-    Map<DateTime, List<Event>>? mySelectedEvents = await Event.getAllCours();
-    print(mySelectedEvents);
+    Map<DateTime, List<Event>>? mySelectedEvents = await Event.getAllEventsTimed();
     setState(() {
       _mySelectedEvents = mySelectedEvents;
       _coursLoaded = true;
@@ -45,8 +46,10 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
     if(!_coursLoaded) {
       return [];
     } else {
-      DateTime.parse(DateFormat('EEE d MMM').format(dateTime));
-      return _mySelectedEvents?[dateTime] ?? [];
+      DateTime? date = DateTime.parse(DateFormat('yyyy-MM-dd').format(dateTime));
+      print(date);
+      print(_mySelectedEvents?[date]);
+      return _mySelectedEvents?[date] ?? [];
     }
   }
 
@@ -59,11 +62,11 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
             Card(
               margin: const EdgeInsets.all(8.0),
               elevation: 5.0,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
+              shape: RoundedRectangleBorder(
+                borderRadius: const BorderRadius.all(
                   Radius.circular(10),
                 ),
-                side: BorderSide(color: Color.fromARGB(255, 247, 184, 247), width: 2.0),
+                side: BorderSide(color: AppColors().bgColor, width: 2.0),
               ),
               child: TableCalendar(
                 focusedDay: _focusedCalendarDate,
@@ -86,54 +89,54 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
                 // this property needs to be added if we want to show events
                 eventLoader: _listOfDayEvents,
                 // Calendar Header Styling
-                headerStyle: const HeaderStyle(
+                headerStyle: HeaderStyle(
                   titleTextStyle:
-                  TextStyle(color: Color.fromARGB(255, 255, 240, 240), fontSize: 20.0),
+                  TextStyle(color: AppColors().unselectedItemColor, fontSize: 20.0),
                   decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 247, 184, 247),
+                      color: AppColors().bgColor,
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10),
                           topRight: Radius.circular(10))),
                   formatButtonTextStyle:
-                    TextStyle(color: Color.fromARGB(255, 255, 240, 240), fontSize: 16.0),
+                    TextStyle(color: AppColors().unselectedItemColor, fontSize: 16.0),
                   formatButtonDecoration: BoxDecoration(
-                    color: Color.fromARGB(255, 247, 184, 247),
+                    color: AppColors().bgColor,
                     borderRadius: BorderRadius.all(
                       Radius.circular(5.0),
                     ),
                   ),
                   leftChevronIcon: Icon(
                     Icons.chevron_left,
-                    color: Color.fromARGB(255, 255, 240, 240),
+                    color: AppColors().unselectedItemColor,
                     size: 28,
                   ),
                   rightChevronIcon: Icon(
                     Icons.chevron_right,
-                    color: Color.fromARGB(255, 255, 240, 240),
+                    color: AppColors().unselectedItemColor,
                     size: 28,
                   ),
                 ),
                 // Calendar Days Styling
-                daysOfWeekStyle: const DaysOfWeekStyle(
+                daysOfWeekStyle: DaysOfWeekStyle(
                   // Weekend days color (Sat,Sun)
-                  weekendStyle: TextStyle(color: Color.fromARGB(255, 160, 0, 218)),
+                  weekendStyle: TextStyle(color: AppColors().selectedItemColor),
                 ),
                 // Calendar Dates styling
-                calendarStyle: const CalendarStyle(
+                calendarStyle: CalendarStyle(
                   // Weekend dates color (Sat & Sun Column)
-                  weekendTextStyle: TextStyle(color: Color.fromARGB(255, 160, 0, 218)),
+                  weekendTextStyle: TextStyle(color: AppColors().selectedItemColor),
                   // highlighted color for today
-                  todayDecoration: BoxDecoration(
+                  todayDecoration: const BoxDecoration(
                     color: Colors.black45,
                     shape: BoxShape.circle,
                   ),
                   // highlighted color for selected day
                   selectedDecoration: BoxDecoration(
-                    color: Color.fromARGB(255, 160, 0, 218),
+                    color: AppColors().selectedItemColor,
                     shape: BoxShape.circle,
                   ),
                   markerDecoration: BoxDecoration(
-                      color: Color.fromARGB(255, 160, 0, 218), shape: BoxShape.circle),
+                      color: AppColors().selectedItemColor, shape: BoxShape.circle),
                 ),
                 selectedDayPredicate: (currentSelectedDate) {
                   // as per the documentation 'selectedDayPredicate' needs to determine
@@ -154,9 +157,9 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
             ),
             ..._listOfDayEvents(selectedCalendarDate!).map(
                   (myEvents) => ListTile(
-                leading: const Icon(
+                leading: Icon(
                   Icons.done,
-                  color: Colors.pinkAccent,
+                  color: AppColors().selectedItemColor,
                 ),
                 title: Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),

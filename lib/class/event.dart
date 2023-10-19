@@ -44,8 +44,7 @@ class Event {
             id: event['id'],
             type: event['type'],
             users: event?['event'],
-            date: DateTime.parse(DateFormat('EEE d MMM').format(event['date'])),
-            time: DateTime.parse(DateFormat('kk:mm:ss').format(event['date'])),
+            date: DateTime.parse(DateFormat('yyyy-MM-dd').format(event['date'])),
             creator: event['creator'],
             place: event['place'],
             horses: event?['horses'],
@@ -85,7 +84,7 @@ class Event {
   }
 
 
-  static Future<Map<DateTime, List<Event>>?> getAllCours() async {
+  static Future<Map<DateTime, List<Event>>?> getAllEventsTimed() async {
     var db = DbConnect().dbref;
     var eventCollection = db.collection('Events');
     List<Event> eventList = [];
@@ -100,12 +99,13 @@ class Event {
           type: event['type'],
           users: event?['users'],
           creator: event['creator'],
-          date: event['date'],
+          date: DateTime.parse(DateFormat('yyyy-MM-dd').format(event['date'])),
           discipline: event['discipline'],
           duree: event?['duree'],
           etat: event?['etat'],
           place: event['place'],
         );
+        print(eventInfo.date);
         if (eventMap[eventInfo.date] == null) {
           eventMap[eventInfo.date] = [];
         }
