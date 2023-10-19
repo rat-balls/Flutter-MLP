@@ -19,10 +19,21 @@ class DbConnect {
     try {
       _dbref = await Db.create(connectionURI);
       await _dbref.open();
-      print("connected !");
+      print("Connected to MongoDB!");
       isConnected = true;
     } catch (e) {
-      print("Erreur lors de la connexion à la db $e");
+      print("Error connecting to the database: $e");
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getRiders() async {
+    if (isConnected) {
+      final collection = _dbref.collection('riders');
+      final cursor = collection.find(); // Vous pouvez ajouter des critères de recherche si nécessaire
+      final riders = await cursor.toList();
+      return riders;
+    } else {
+      return [];
     }
   }
 }
