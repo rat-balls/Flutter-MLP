@@ -36,19 +36,19 @@ class Event {
 
         for (var event in eventsData) {
           eventInfo = Event(
-              id: event['id'],
+              id: event['_id'],
               type: event['type'],
-              users: event?['event'],
+              users: List<ObjectId>.from(event['users']),
               date: event['date'],
               creator: event['creator'],
               place: event['place'],
-              horses: event?['horses'],
+              horses: List<ObjectId>.from(event['horses']),
               discipline: event['discipline'],
-              duree: event?['duree'],
-              etat: event?['bool']
+              duree: event['duree'],
+              etat: event['bool']
           );
 
-          eventList.add(eventInfo);
+          seventList.add(eventInfo);
         }
         print(eventList);
         return eventList;

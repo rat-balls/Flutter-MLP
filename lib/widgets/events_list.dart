@@ -15,17 +15,11 @@ class EventListWidget extends StatefulWidget {
 class _EventListWidget extends State<EventListWidget> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
+    return ListView.builder(
         itemCount: widget.eventList?.length,
         itemBuilder: (context, index) {
-          return Column(
-            children: [
-              EventCard(event: widget.eventList![index]),
-            ],
-          );
+          return EventCard(event: widget.eventList![index]);
         },
-      ),
     );
   }
 }

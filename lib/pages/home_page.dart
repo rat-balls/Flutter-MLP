@@ -15,7 +15,7 @@ class _HomePageState extends State<HomePage>{
   bool _eventsDataLoaded = false;
 
   Future<void> _getEvents() async {
-    List<Event>? eventsList = await Events.getAllEvents();
+    List<Event>? eventsList = await Event.getAllEvents();
     setState(() {
       _events = eventsList;
       _eventsDataLoaded = true;
@@ -33,9 +33,12 @@ class _HomePageState extends State<HomePage>{
 
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text("Home page")),
       body: _eventsDataLoaded
-          ? EventListWidget(eventList: _events)
-          :const Center(),
+      ? EventListWidget(eventList: _events)
+          : const Center(
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 }
