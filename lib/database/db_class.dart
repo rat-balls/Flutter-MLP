@@ -19,7 +19,7 @@ class DbConnect extends ChangeNotifier {
 
   Future<void> connectToDb() async {
     try {
-      _dbref = Db(connectionURI);
+      _dbref = await Db.create(connectionURI);
       await _dbref.open();
       print("Connected to MongoDB!");
       isConnected = true;

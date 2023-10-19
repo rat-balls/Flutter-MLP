@@ -33,19 +33,18 @@ class _HomePageState extends State<HomePage>{
   void initState(){
     super.initState();
 
-    Future.delayed(const Duration(seconds: 10), () async{
+    Future.delayed(const Duration(seconds: 5), () async{
       await _getEvents();
     });
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Home page")),
       body: _eventsDataLoaded
-      ? EventListWidget(eventList: _valideEvents)
+        ? EventListWidget(eventList: _valideEvents)
           : const Center(
-        child: CircularProgressIndicator(),
-      ),
+              child: CircularProgressIndicator(),
+          ),
     );
   }
 }

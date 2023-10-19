@@ -53,6 +53,36 @@ class User {
     }
   }
 
+  static Future<User?> getUserInfoFromId(String id) async {
+    var db = DbConnect().dbref;
+    var userCollection = db.collection('Users');
+
+    User userinfo;
+    ObjectId idToObjectId = ObjectId.fromHexString(id);
+
+    try {
+      var userData = await userCollection.findOne(where.eq("_id", idToObjectId));
+      if (userData != null) {
+        userinfo = User(
+            id: userData['_id'],
+            firstname: userData['firstname'],
+            lastname: userData['lastname'],
+            age: userData['age'],
+            phonenumbers: userData['phonenumber'],
+            ffe: userData['ffe'],
+            email: userData['email']);
+
+        return userinfo;
+      } else {
+        print("Aucun utilisateur trouvé avec l'id: $id");
+        return null;
+      }
+    } catch (e) {
+      print("Erreur lors de la récupération des données : $e");
+      return null;
+    }
+  }
+
   static Future<void> updateUserInfo(User newInfos) async {
     var db = DbConnect().dbref;
     var collection = db.collection('Users');
