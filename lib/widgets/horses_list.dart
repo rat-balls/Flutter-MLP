@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mlp/class/user_profil/horse.dart';
+import 'package:flutter_mlp/class/users/horse.dart';
 import 'package:flutter_mlp/class/user_profil/user_profil.dart';
+import 'package:flutter_mlp/class/users/user.dart';
 import 'package:flutter_mlp/widgets/edit_horse_form.dart';
 import 'package:flutter_mlp/widgets/horse_card.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mango;
@@ -30,7 +31,7 @@ class _HorseListWidget extends State<HorseListWidget> {
                   if (!widget.horseList![index].isUserIsOwner(widget.userId))
                     ElevatedButton(
                         onPressed: () {
-                          UserProfil().associateUserWithHorse(
+                          User.associateUserWithHorse(
                               widget.horseList?[index].id, widget.userId);
                         },
                         child: const Text("Se déclarer proprio")),
@@ -38,7 +39,7 @@ class _HorseListWidget extends State<HorseListWidget> {
                       !widget.horseList![index].isUserIsOwner(widget.userId))
                     ElevatedButton(
                         onPressed: () {
-                          UserProfil().addUserToHorseDp(
+                          User.addUserToHorseDp(
                               widget.horseList?[index].id, widget.userId);
                         },
                         child: const Text("Se déclarer en dp")),

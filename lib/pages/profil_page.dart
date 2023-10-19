@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mlp/class/user_profil/horse.dart';
-import 'package:flutter_mlp/class/user_profil/user.dart';
+import 'package:flutter_mlp/class/users/horse.dart';
+import 'package:flutter_mlp/class/users/user.dart';
 import 'package:flutter_mlp/class/user_profil/user_profil.dart';
 import 'package:flutter_mlp/widgets/edit_horse_form.dart';
 import 'package:flutter_mlp/widgets/edit_user_form.dart';
@@ -29,33 +29,33 @@ class _ProfilPageState extends State<ProfilPage> {
   bool _userHorsesDpDataLoaded = false;
 
   Future<void> _getUserInfo() async {
-    await userProfil.getUserInfo('email@edu.esiee-it.fr');
+    User? userInfo = await User.getUserInfo('email@edu.esiee-it.fr');
     setState(() {
-      _user = userProfil.currentUser;
+      _user = userInfo;
       _userDataLoaded = true;
     });
   }
 
   Future<void> _getHorses() async {
-    await userProfil.getHorses();
+    List<Horse>? horseList = await Horse.getHorses();
     setState(() {
-      _horseList = userProfil.horsesList;
+      _horseList = horseList;
       _horsesDataLoaded = true;
     });
   }
 
   Future<void> _getOwnedHorses() async {
-    await userProfil.getOwnedHorses(_user?.id);
+    List<Horse>? ownedList = await User.getOwnedHorses(_user?.id);
     setState(() {
-      _ownedHorsesList = userProfil.ownedHorsesList;
+      _ownedHorsesList = ownedList;
       _ownedHorsesDataLoaded = true;
     });
   }
 
   Future<void> _getUserHorsesDp() async {
-    await userProfil.getHorsesInDpList(_user?.id);
+    List<Horse>? dpList = await User.getHorsesInDpList(_user?.id);
     setState(() {
-      _userHorsesDp = userProfil.userHorsesDp;
+      _userHorsesDp = dpList;
       _userHorsesDpDataLoaded = true;
     });
   }
@@ -64,7 +64,7 @@ class _ProfilPageState extends State<ProfilPage> {
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(seconds: 2), () async {
+    Future.delayed(const Duration(seconds: 10), () async {
       await _getUserInfo();
       await _getHorses();
       await _getOwnedHorses();

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mlp/class/user_profil/user.dart';
+import 'package:flutter_mlp/class/users/user.dart';
 import 'package:flutter_mlp/class/user_profil/user_profil.dart';
 import 'package:flutter_mlp/database/db_class.dart';
 import 'package:provider/provider.dart';
@@ -32,8 +32,6 @@ class _EditUserForm extends State<EditUserForm> {
   }
 
   final _formKey = GlobalKey<FormState>();
-
-  var contactManager = UserProfil();
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +103,7 @@ class _EditUserForm extends State<EditUserForm> {
             ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  contactManager.updateContactInfo(User(
+                  User.updateUserInfo(User(
                       firstname: firstnameController.text,
                       lastname: lastnameController.text,
                       age: ageController.text,

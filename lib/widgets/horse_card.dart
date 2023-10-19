@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mlp/class/user_profil/horse.dart';
+import 'package:flutter_mlp/class/users/horse.dart';
 
 class HorseCard extends StatelessWidget {
   final Horse horse;
