@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mlp/database/db_class.dart';
 import 'package:flutter_mlp/pages/events_page.dart';
-import 'package:flutter_mlp/pages/home_page.dart';
 import 'package:flutter_mlp/pages/profil_page.dart';
+import 'package:flutter_mlp/class/rider.dart'; // Assurez-vous que le chemin est correct
 import 'package:flutter_mlp/pages/riders_page.dart';
 
 void main() {
@@ -17,14 +16,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyApp extends State<MyApp> {
-  DbConnect myDb = DbConnect();
-
-  @override
-  void initState() {
-    super.initState();
-    myDb.connectToDb();
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -35,10 +26,9 @@ class _MyApp extends State<MyApp> {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const HomePage(),
+        '/': (context) => RidersPage(),
         '/profil': (context) => const ProfilPage(),
-        '/riders': (context) => const RidersPage(),
-        '/events': (context) => const EventsPage()
+        '/events': (context) => const EventsPage(),
       },
     );
   }
