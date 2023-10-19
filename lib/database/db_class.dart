@@ -28,8 +28,8 @@ class DbConnect {
 
   Future<List<Map<String, dynamic>>> getRiders() async {
     if (isConnected) {
-      final collection = _dbref.collection('riders');
-      final cursor = collection.find(); // Vous pouvez ajouter des critères de recherche si nécessaire
+      final collection = _dbref.collection('user');
+      final cursor = collection.find();
       final riders = await cursor.toList();
       return riders;
     } else {
