@@ -1,10 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
-class DbConnect {
+class DbConnect extends ChangeNotifier {
   static const connectionURI =
       'mongodb+srv://root:root@cluster0.g9po3tv.mongodb.net/flutter_mlp?retryWrites=true&w=majority';
 
-  late final _dbref;
+  static late Db _dbref;
 
   bool isConnected = false;
 
