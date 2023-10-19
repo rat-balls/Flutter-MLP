@@ -1,132 +1,53 @@
 import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter_mlp/widgets/controllerPage.dart';
+import 'package:intl/intl.dart';
+import 'package:flutter_mlp/class/event.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class TimelineCalendarPage extends StatefulWidget {
   const TimelineCalendarPage({Key? key, }) : super(key: key);
-
 
   @override
   _TimelineCalendarPageState createState() => _TimelineCalendarPageState();
 }
 
 class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
-  final Color _selectedItemColor = Color.fromARGB(255, 160, 0, 218);
-  final Color _unselectedItemColor = Color.fromARGB(255, 255, 240, 240);
-  final Color _bgColor = Color.fromARGB(255, 247, 184, 247);
   final todaysDate = DateTime.now();
   var _focusedCalendarDate = DateTime.now();
-  final _initialCalendarDate = DateTime(2000);
+  final _initialCalendarDate = DateTime.now();
   final _lastCalendarDate = DateTime(2050);
   DateTime? selectedCalendarDate;
-  final titleController = TextEditingController();
-  final descpController = TextEditingController();
 
-  late Map<DateTime, List<MyEvents>> mySelectedEvents;
+  late Map<DateTime, List<Event>>? _mySelectedEvents;
+  bool _coursLoaded = false;
+
+  Future<void> _getCoursInfo() async {
+    Map<DateTime, List<Event>>? mySelectedEvents = await Event.getAllCours();
+    print(mySelectedEvents);
+    setState(() {
+      _mySelectedEvents = mySelectedEvents;
+      _coursLoaded = true;
+    });
+  }
 
   @override
   void initState() {
     selectedCalendarDate = _focusedCalendarDate;
-    mySelectedEvents = {};
     super.initState();
+
+    Future.delayed(const Duration(seconds: 10), () async {
+      await _getCoursInfo();
+    });
   }
 
-  @override
-  void dispose() {
-    titleController.dispose();
-    descpController.dispose();
-    super.dispose();
-  }
-
-  List<MyEvents> _listOfDayEvents(DateTime dateTime) {
-    return mySelectedEvents[dateTime] ?? [];
-  }
-
-  _showAddEventDialog() async {
-    await showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('New Event'),
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              buildTextField(
-                  controller: titleController, hint: 'Enter Title'),
-              const SizedBox(
-                height: 20.0,
-              ),
-              buildTextField(
-                  controller: descpController, hint: 'Enter Description'),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                if (titleController.text.isEmpty &&
-                    descpController.text.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Please enter title & description'),
-                      duration: Duration(seconds: 3),
-                    ),
-                  );
-                  //Navigator.pop(context);
-                  return;
-                } else {
-                  setState(() {
-                    if (mySelectedEvents[selectedCalendarDate] != null) {
-                      mySelectedEvents[selectedCalendarDate]?.add(MyEvents(
-                          eventTitle: titleController.text,
-                          eventDescp: descpController.text));
-                    } else {
-                      mySelectedEvents[selectedCalendarDate!] = [
-                        MyEvents(
-                            eventTitle: titleController.text,
-                            eventDescp: descpController.text)
-                      ];
-                    }
-                  });
-
-                  titleController.clear();
-                  descpController.clear();
-
-                  Navigator.pop(context);
-                  return;
-                }
-              },
-              child: const Text('Add'),
-            ),
-          ],
-        ));
-  }
-
-  Widget buildTextField(
-      {String? hint, required TextEditingController controller}) {
-    return TextField(
-      controller: controller,
-      textCapitalization: TextCapitalization.words,
-      decoration: InputDecoration(
-        labelText: hint ?? '',
-        focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Color.fromARGB(255, 247, 184, 247), width: 1.5),
-          borderRadius: BorderRadius.circular(
-            10.0,
-          ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Color.fromARGB(255, 247, 184, 247), width: 1.5),
-          borderRadius: BorderRadius.circular(
-            10.0,
-          ),
-        ),
-      ),
-    );
+  List<Event> _listOfDayEvents(DateTime dateTime) {
+    if(!_coursLoaded) {
+      return [];
+    } else {
+      DateTime.parse(DateFormat('EEE d MMM').format(dateTime));
+      return _mySelectedEvents?[dateTime] ?? [];
+    }
   }
 
   @override
@@ -203,12 +124,12 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
                   weekendTextStyle: TextStyle(color: Color.fromARGB(255, 160, 0, 218)),
                   // highlighted color for today
                   todayDecoration: BoxDecoration(
-                    color: Color.fromARGB(255, 160, 0, 218),
+                    color: Colors.black45,
                     shape: BoxShape.circle,
                   ),
                   // highlighted color for selected day
                   selectedDecoration: BoxDecoration(
-                    color: Colors.black45,
+                    color: Color.fromARGB(255, 160, 0, 218),
                     shape: BoxShape.circle,
                   ),
                   markerDecoration: BoxDecoration(
@@ -239,9 +160,9 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
                 ),
                 title: Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Text('Event Title:   ${myEvents.eventTitle}'),
+                  child: Text("Type:   ${myEvents.type}"),
                 ),
-                subtitle: Text('Description:   ${myEvents.eventDescp}'),
+                subtitle: Text('Discipline:   ${myEvents.discipline}'),
               ),
             ),
           ],
@@ -249,29 +170,4 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
       ),
     );
   }
-}
-
-class Cours {
-  final List chevaux;
-  final String terrain;
-  final int duree;
-  final String discipline;
-  final bool etat;
-
-  Cours({required this.chevaux,
-    required this.terrain,
-    required this.duree,
-    required this.discipline,
-    required this.etat,
-  });
-}
-
-class MyEvents {
-  final String eventTitle;
-  final String eventDescp;
-
-  MyEvents({required this.eventTitle, required this.eventDescp});
-
-  @override
-  String toString() => eventTitle;
 }
