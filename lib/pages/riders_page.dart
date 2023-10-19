@@ -5,7 +5,7 @@ class RidersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
-}
+    return Scaffold(
+      body: Center(child: const Text('List'),),
+    );
+}}
