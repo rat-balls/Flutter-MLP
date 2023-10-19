@@ -12,7 +12,7 @@ class Event {
   List<ObjectId>? horses;
   String? discipline;
   int? duree;
-  bool? etat;
+  bool etat;
 
   Event(
       {this.id,
@@ -24,7 +24,7 @@ class Event {
       this.horses,
       required this.discipline,
       this.duree,
-      this.etat});
+      required this.etat});
 
     static Future<List<Event>?> getAllEvents() async {
       var db = DbConnect().dbref;
@@ -35,20 +35,22 @@ class Event {
         var eventsData = await eventCollection.find().toList();
 
         for (var event in eventsData) {
-          eventInfo = Event(
-              id: event['_id'],
-              type: event['type'],
-              users: List<ObjectId>.from(event['users']),
-              date: event['date'],
-              creator: event['creator'],
-              place: event['place'],
-              horses: List<ObjectId>.from(event['horses']),
-              discipline: event['discipline'],
-              duree: event['duree'],
-              etat: event['bool']
-          );
+          if (event['etat'] == true){
+            eventInfo = Event(
+                id: event['_id'],
+                type: event['type'],
+                users: List<ObjectId>.from(event['users']),
+                date: event['date'],
+                creator: event['creator'],
+                place: event['place'],
+                horses: List<ObjectId>.from(event['horses']),
+                discipline: event['discipline'],
+                duree: event['duree'],
+                etat: event['etat']
+            );
+            eventList.add(eventInfo);
+          };
 
-          seventList.add(eventInfo);
         }
         print(eventList);
         return eventList;
