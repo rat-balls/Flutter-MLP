@@ -62,6 +62,39 @@ class Horse {
     return null;
   }
 
+  static Future<List<Horse>?> getNonOwnedHorses(ObjectId? userId) async {
+    var db = DbConnect().dbref;
+    var horsesCollection = db.collection('Horses');
+
+    List<Horse> horseList = [];
+
+    try {
+      var horsesData = await horsesCollection
+          .find(where.ne("owner", userId).ne("dp", userId))
+          .toList();
+
+      for (var horse in horsesData) {
+        var newHorse = Horse(
+          id: horse['_id'],
+          name: horse['name'],
+          age: horse['age'],
+          coat: horse['coat'],
+          breed: horse['breed'],
+          gender: horse['gender'],
+          specialties: List<String>.from(horse['specialties']),
+          owner: horse['owner'],
+          dp: List<ObjectId>.from(horse['dp']),
+        );
+
+        horseList.add(newHorse);
+      }
+      return horseList;
+    } catch (e) {
+      print('Erreur lors de la récupération des chevaux : $e');
+    }
+    return null;
+  }
+
   static Future<void> updateHorseInfo(Horse horse) async {
     var db = DbConnect().dbref;
     var horsesCollection = db.collection('Horses');

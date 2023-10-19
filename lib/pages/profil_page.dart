@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mlp/class/users/horse.dart';
 import 'package:flutter_mlp/class/users/user.dart';
 import 'package:flutter_mlp/class/user_profil/user_profil.dart';
-import 'package:flutter_mlp/widgets/profil/add_horse_form.dart';
-import 'package:flutter_mlp/widgets/profil/edit_horse_form.dart';
-import 'package:flutter_mlp/widgets/profil/edit_user_form.dart';
-import 'package:flutter_mlp/widgets/profil/horse_card.dart';
-import 'package:flutter_mlp/widgets/profil/horses_list.dart';
+import 'package:flutter_mlp/widgets/profil/section_widget.dart';
+import 'package:flutter_mlp/widgets/profil/user_card.dart';
 
 class ProfilPage extends StatefulWidget {
   ProfilPage({super.key});
@@ -38,7 +35,7 @@ class _ProfilPageState extends State<ProfilPage> {
   }
 
   Future<void> _getHorses() async {
-    List<Horse>? horseList = await Horse.getHorses();
+    List<Horse>? horseList = await Horse.getNonOwnedHorses(_user!.id);
     setState(() {
       _horseList = horseList;
       _horsesDataLoaded = true;
@@ -46,7 +43,7 @@ class _ProfilPageState extends State<ProfilPage> {
   }
 
   Future<void> _getOwnedHorses() async {
-    List<Horse>? ownedList = await User.getOwnedHorses(_user?.id);
+    List<Horse>? ownedList = await User.getOwnedHorses(_user!.id);
     setState(() {
       _ownedHorsesList = ownedList;
       _ownedHorsesDataLoaded = true;
@@ -54,7 +51,7 @@ class _ProfilPageState extends State<ProfilPage> {
   }
 
   Future<void> _getUserHorsesDp() async {
-    List<Horse>? dpList = await User.getHorsesInDpList(_user?.id);
+    List<Horse>? dpList = await User.getHorsesInDpList(_user!.id);
     setState(() {
       _userHorsesDp = dpList;
       _userHorsesDpDataLoaded = true;
@@ -82,87 +79,29 @@ class _ProfilPageState extends State<ProfilPage> {
                 _userHorsesDpDataLoaded
             ? ListView(
                 children: [
-                  _Section(
-                      "Mes Chevaux", _ownedHorsesDataLoaded, _ownedHorsesList!),
-                  _Section("Mes DP", _userHorsesDpDataLoaded, _userHorsesDp!),
-                  _Section("Les Chevaux", _horsesDataLoaded, _horseList!),
+                  UserCard(user: _user!),
+                  SectionWidget(
+                    title: "Mes Chevaux",
+                    dataLoaded: _ownedHorsesDataLoaded,
+                    horseList: _ownedHorsesList!,
+                    user: _user!,
+                  ),
+                  SectionWidget(
+                    title: "Mes Demis pensions",
+                    dataLoaded: _userHorsesDpDataLoaded,
+                    horseList: _userHorsesDp!,
+                    user: _user!,
+                  ),
+                  SectionWidget(
+                    title: "Les chevaux",
+                    dataLoaded: _horsesDataLoaded,
+                    horseList: _horseList!,
+                    user: _user!,
+                  ),
                 ],
               )
             : const Center(
                 child: CircularProgressIndicator(),
               ));
-  }
-
-  Widget _Section(String title, bool dataLoaded, List<Horse> horseList) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          dataLoaded
-              ? SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: horseList.map((horse) {
-                      return Card(
-                        child: Column(
-                          children: [
-                            Text(
-                              horse.name,
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text("Âge: ${horse.age} ans"),
-                            Text("Robe: ${horse.coat}"),
-                            Text("Race: ${horse.breed}"),
-                            Text("Sexe: ${horse.gender}"),
-                            Text(
-                                "Spécialités: ${horse.specialties.join(', ')}"),
-                            Row(
-                              children: [
-                                ElevatedButton(
-                                  onPressed: () {
-                                    User.associateUserWithHorse(
-                                        horse.id, _user!.id);
-                                  },
-                                  child: const Text("S'associer à un cheval"),
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    User.addUserToHorseDp(horse.id, _user!.id);
-                                  },
-                                  child: const Text("Se mettre en DP"),
-                                ),
-                                ElevatedButton(
-                                  onPressed: () => showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: const Text("Modifier le cheval"),
-                                        content: EditHorseForm(
-                                          horse: horse,
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                  child: const Text("Modifier le cheval"),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                )
-              : const Center(
-                  child: CircularProgressIndicator(),
-                ),
-        ],
-      ),
-    );
   }
 }
