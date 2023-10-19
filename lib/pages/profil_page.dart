@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mlp/class/users/horse.dart';
 import 'package:flutter_mlp/class/users/user.dart';
 import 'package:flutter_mlp/class/user_profil/user_profil.dart';
-import 'package:flutter_mlp/widgets/edit_horse_form.dart';
-import 'package:flutter_mlp/widgets/edit_user_form.dart';
-import 'package:flutter_mlp/widgets/horse_card.dart';
-import 'package:flutter_mlp/widgets/horses_list.dart';
+import 'package:flutter_mlp/widgets/profil/section_widget.dart';
+import 'package:flutter_mlp/widgets/profil/user_card.dart';
 
 class ProfilPage extends StatefulWidget {
   ProfilPage({super.key});
@@ -29,7 +27,7 @@ class _ProfilPageState extends State<ProfilPage> {
   bool _userHorsesDpDataLoaded = false;
 
   Future<void> _getUserInfo() async {
-    User? userInfo = await User.getUserInfo('email@edu.esiee-it.fr');
+    User? userInfo = await User.getUserInfo('bob@example.com');
     setState(() {
       _user = userInfo;
       _userDataLoaded = true;
@@ -37,7 +35,7 @@ class _ProfilPageState extends State<ProfilPage> {
   }
 
   Future<void> _getHorses() async {
-    List<Horse>? horseList = await Horse.getHorses();
+    List<Horse>? horseList = await Horse.getNonOwnedHorses(_user!.id);
     setState(() {
       _horseList = horseList;
       _horsesDataLoaded = true;
@@ -45,7 +43,7 @@ class _ProfilPageState extends State<ProfilPage> {
   }
 
   Future<void> _getOwnedHorses() async {
-    List<Horse>? ownedList = await User.getOwnedHorses(_user?.id);
+    List<Horse>? ownedList = await User.getOwnedHorses(_user!.id);
     setState(() {
       _ownedHorsesList = ownedList;
       _ownedHorsesDataLoaded = true;
@@ -53,7 +51,7 @@ class _ProfilPageState extends State<ProfilPage> {
   }
 
   Future<void> _getUserHorsesDp() async {
-    List<Horse>? dpList = await User.getHorsesInDpList(_user?.id);
+    List<Horse>? dpList = await User.getHorsesInDpList(_user!.id);
     setState(() {
       _userHorsesDp = dpList;
       _userHorsesDpDataLoaded = true;
@@ -64,7 +62,7 @@ class _ProfilPageState extends State<ProfilPage> {
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(seconds: 1), () async {
+    Future.delayed(const Duration(seconds: 5), () async {
       await _getUserInfo();
       await _getHorses();
       await _getOwnedHorses();
@@ -75,67 +73,35 @@ class _ProfilPageState extends State<ProfilPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Profil page")),
-      body: _userDataLoaded && _horsesDataLoaded
-          ? Column(
-              children: [
-                Row(
-                  children: [
-                    Image(image: AssetImage(pp), width: 50, height: 50),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Text(_user!.firstname),
-                            Text(_user!.lastname)
-                          ],
-                        ),
-                        Text(_user!.age),
-                        Text(_user!.phonenumbers),
-                        Text(_user!.email),
-                        Text(_user!.ffe)
-                      ],
-                    )
-                  ],
-                ),
-                ElevatedButton(
-                  onPressed: () => showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text("Modifications des informations"),
-                        content: EditUserForm(user: _user!),
-                      );
-                    },
+        body: _userDataLoaded &&
+                _horsesDataLoaded &&
+                _ownedHorsesDataLoaded &&
+                _userHorsesDpDataLoaded
+            ? ListView(
+                children: [
+                  UserCard(user: _user!),
+                  SectionWidget(
+                    title: "Mes Chevaux",
+                    dataLoaded: _ownedHorsesDataLoaded,
+                    horseList: _ownedHorsesList!,
+                    user: _user!,
                   ),
-                  child: const Text("Modifier mon profil"),
-                ),
-                const Text("Mes chevaux"),
-                _ownedHorsesDataLoaded && _userDataLoaded
-                    ? HorseListWidget(
-                        userId: _user!.id, horseList: _ownedHorsesList)
-                    : const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                const Text("Mes DP"),
-                _userHorsesDpDataLoaded && _userDataLoaded
-                    ? HorseListWidget(
-                        userId: _user!.id, horseList: _userHorsesDp)
-                    : const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                const Text("S'associer à un cheval"),
-                _horsesDataLoaded && _userDataLoaded
-                    ? HorseListWidget(userId: _user!.id, horseList: _horseList)
-                    : const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-              ],
-            )
-          : const Center(
-              child: CircularProgressIndicator(),
-            ),
-    );
+                  SectionWidget(
+                    title: "Mes Demis pensions",
+                    dataLoaded: _userHorsesDpDataLoaded,
+                    horseList: _userHorsesDp!,
+                    user: _user!,
+                  ),
+                  SectionWidget(
+                    title: "Les chevaux",
+                    dataLoaded: _horsesDataLoaded,
+                    horseList: _horseList!,
+                    user: _user!,
+                  ),
+                ],
+              )
+            : const Center(
+                child: CircularProgressIndicator(),
+              ));
   }
 }
