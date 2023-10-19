@@ -36,4 +36,38 @@ class DbConnect extends ChangeNotifier {
       return [];
     }
   }
+
+  
+Future<bool> LoginUser(String password, String mail, TextEditingController usernameController, TextEditingController passwordController) async {
+  var collection = _dbref.collection('Users');
+
+  var result = await collection.findOne({
+    'mail': mail,
+    'password': password,
+  });
+
+  String username = usernameController.text;
+  String enteredPassword = passwordController.text;
+
+  return result != null && username == mail && enteredPassword == password;
+}
+
+
+    Future<bool> RegisterUser(String name, String firstname, String age, String ffe, String mail, String number, String role, String password) async {
+    
+    var collection = _dbref.collection('Users');
+
+    var result = await collection.insert({
+      'name' : name,
+      'firstname' : firstname,
+      'age' : age,
+      'ffe' : ffe,
+      'mail' : mail,
+      'number' : number,
+      'role' : role,
+      'password' :password,
+    });
+    return result != null;
+  }
+
 }
