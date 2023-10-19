@@ -5,13 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7c34849b-f6c9-4790-9e9b-4fcf51f18c74" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/widgets/event_card.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/widgets/events_list.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/class/event_class.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/class/event.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/home_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/home_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/widgets/navbar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/navbar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/class/event.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/class/event.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/event_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/event_card.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/events_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/events_list.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/navbar.dart" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

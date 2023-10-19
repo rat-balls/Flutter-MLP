@@ -16,13 +16,9 @@ class EventCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(event.type),
-            Text('Robe: ${horse.coat}'),
-            Text('Race: ${horse.breed}'),
-            Text('Sexe: ${horse.gender}'),
-            Text('Spécialités: ${horse.specialties.join(', ')}'),
-            Text('Propriétaire: ${horse.owner ?? 'Non spécifié'}'),
+            Text('${event.date} ${event.hour}'),
             Text(
-                'DP: ${horse.dp!.isNotEmpty ? horse.dp?.join(', ') : 'Aucun'}'),
+                'Présent: ${event.users!.isNotEmpty ? event.users?.join(', ') : 'Aucun'}'),
           ],
         ),
       ),
