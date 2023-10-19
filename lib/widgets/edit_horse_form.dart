@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mlp/class/user_profil/horse.dart';
+import 'package:flutter_mlp/class/users/horse.dart';
 import 'package:flutter_mlp/class/user_profil/user_profil.dart';
 
 class EditHorseForm extends StatefulWidget {
@@ -114,7 +114,7 @@ class _EditHorseFormState extends State<EditHorseForm> {
                       .map((e) => e.trim())
                       .toList(),
                 );
-                userProfil.updateHorseInfo(updatedHorse);
+                Horse.updateHorseInfo(updatedHorse);
               }
             },
             child: const Text('Modifier'),
