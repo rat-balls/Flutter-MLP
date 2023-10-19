@@ -6,6 +6,7 @@ class User {
   User(
       {this.id,
       this.isAdmin = false,
+      this.password,
       required this.firstname,
       required this.lastname,
       required this.age,
@@ -21,6 +22,7 @@ class User {
   String phonenumbers;
   String ffe;
   String email;
+  String? password;
 
   static Future<User?> getUserInfo(String email) async {
     var db = DbConnect().dbref;

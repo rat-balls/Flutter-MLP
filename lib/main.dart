@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mlp/class/auth.dart';
 import 'package:flutter_mlp/database/db_class.dart';
 // import 'package:flutter_mlp/pages/home_page.dart';
 import 'package:flutter_mlp/widgets/controllerPage.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => UserProvider(),
+      child :  MyApp()
+    )
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -33,7 +40,16 @@ class _MyApp extends State<MyApp> {
       ),
       initialRoute: '/',
       routes: {
+<<<<<<< HEAD
+        '/': (context) => LoginPage(),
+        '/profil': (context) => ProfilPage(),
+        '/riders': (context) => const RidersPage(),
+        '/events': (context) => const EventsPage(),
+        // '/register':(context) => const RegisterPage(),
+        // '/': (context) => const ControllerPage(),
+=======
         '/': (context) => const ControllerPage(),
+>>>>>>> aeb45b55329bc597a0346ce4e14aa4300407eb2f
       },
     );
   }
