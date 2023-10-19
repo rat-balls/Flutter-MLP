@@ -33,36 +33,64 @@ class Event {
       Event eventInfo;
       try {
         var eventsData = await eventCollection.find().toList();
-
         for (var event in eventsData) {
-          if (event['etat'] == true){
             eventInfo = Event(
                 id: event['_id'],
                 type: event['type'],
                 users: List<ObjectId>.from(event['users']),
                 date: event['date'],
                 creator: event['creator'],
-                place: event['place'],
+                place: event?['place'],
                 horses: List<ObjectId>.from(event['horses']),
                 discipline: event['discipline'],
                 duree: event['duree'],
                 etat: event['etat']
             );
             eventList.add(eventInfo);
-          };
-
         }
         print(eventList);
         return eventList;
       } catch (e) {
         print("Erreur lors de la récupération des données : $e");
         return eventList;
-      } finally {
-        await db.close();
       }
     }
 
-    static Future<void> acceptEvent(ObjectId eventId) async{
+  static Future<List<Event>?> getValideEvents() async {
+    var db = DbConnect().dbref;
+    var eventCollection = db.collection('Events');
+    List<Event> eventList = [];
+    Event eventInfo;
+    try {
+      var eventsData = await eventCollection.find().toList();
+
+      for (var event in eventsData) {
+        if (event['etat'] == true){
+          eventInfo = Event(
+              id: event['_id'],
+              type: event['type'],
+              users: List<ObjectId>.from(event['users']),
+              date: event['date'],
+              creator: event['creator'],
+              place: event['place'],
+              horses: List<ObjectId>.from(event['horses']),
+              discipline: event['discipline'],
+              duree: event['duree'],
+              etat: event['etat']
+          );
+          eventList.add(eventInfo);
+        };
+
+      }
+      print(eventList);
+      return eventList;
+    } catch (e) {
+      print("Erreur lors de la récupération des données : $e");
+      return eventList;
+    }
+  }
+
+    static Future<void> acceptEvent(ObjectId? eventId) async{
       var db = DbConnect().dbref;
       var eventCollection = db.collection('Events');
       try {
@@ -73,22 +101,18 @@ class Event {
         print('Evenement accepter');
       } catch (e){
         print('Erreur lors de la mise à jour : $e');
-      } finally {
-        await db.close();
       }
     }
 
-  static Future<void> deleteEvent(ObjectId eventId) async{
+  static Future<void> deleteEvent(ObjectId? eventId) async{
     var db = DbConnect().dbref;
     var eventCollection = db.collection('Events');
     try {
       await eventCollection.deleteOne(
           where.eq('_id', eventId));
-      print('Evenement accepter');
+      print('Evenement supprimer');
     } catch (e){
       print('Erreur lors de la mise à jour : $e');
-    } finally {
-      await db.close();
     }
   }
 }
