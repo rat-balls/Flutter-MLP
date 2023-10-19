@@ -34,10 +34,12 @@ class _MyApp extends State<MyApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      initialRoute: '/events',
+      initialRoute: '/',
       routes: {
         '/': (context) => ProfilPage(), //const HomePage(),
         '/profil': (context) => ProfilPage(),
+        '/': (context) => HomePage(db: myDb),
+        '/profil': (context) => const ProfilPage(),
         '/riders': (context) => const RidersPage(),
         '/events': (context) => const EventsPage()
       },
