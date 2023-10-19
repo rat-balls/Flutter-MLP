@@ -15,7 +15,7 @@ class _HomePageState extends State<HomePage>{
   bool _eventsDataLoaded = false;
 
   Future<void> _getEvents() async {
-    List<Event>? eventsList = await Events.getEvents();
+    List<Event>? eventsList = await Events.getAllEvents();
     setState(() {
       _events = eventsList;
       _eventsDataLoaded = true;
