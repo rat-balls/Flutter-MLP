@@ -28,7 +28,7 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
   bool _coursLoaded = false;
   bool _userLoaded = false;
 
-  Future<void> _getCoursInfo() async {
+  Future<void> _getUserInfo() async {
     User? userInfo = await User.getUserInfo('alice@example.com');
     setState(() {
       _userInfo = userInfo;
@@ -36,7 +36,7 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
     });
   }
 
-  Future<void> _getUserInfo() async {
+  Future<void> _getCoursInfo() async {
     Map<DateTime, List<Event>>? mySelectedEvents = await Event.getAllEventsTimed();
     setState(() {
       _mySelectedEvents = mySelectedEvents;
