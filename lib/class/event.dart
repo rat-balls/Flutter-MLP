@@ -167,6 +167,38 @@ class Event {
     }
   }
 
+  static Future<List<Event>?> getNotValidEvent() async {
+    var db = DbConnect().dbref;
+    var eventCollection = db.collection('Events');
+    List<Event> eventList = [];
+    Event eventInfo;
+    try {
+      var eventsData = await eventCollection.find().toList();
+
+      for (var event in eventsData) {
+        if (event['etat'] == false) {
+          eventInfo = Event(
+              id: event['_id'],
+              type: event['type'],
+              users: List<ObjectId>.from(event['users']),
+              date: event['date'],
+              creator: event['creator'],
+              place: event['place'],
+              horses: List<ObjectId>.from(event['horses']),
+              discipline: event['discipline'],
+              duree: event['duree'],
+              etat: event['etat']);
+          eventList.add(eventInfo);
+        }
+      }
+      print(eventList);
+      return eventList;
+    } catch (e) {
+      print("Erreur lors de la récupération des données : $e");
+      return eventList;
+    }
+  }
+
   static Future<List<Event>?> getValideEvents() async {
     var db = DbConnect().dbref;
     var eventCollection = db.collection('Events');

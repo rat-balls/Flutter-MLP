@@ -17,8 +17,9 @@ class EventCard extends StatelessWidget {
           children: [
             Text(event.type),
             Text('${event.date}'),
-            Text(
+            /*  Text(
                 'Présent: ${event.users!.isNotEmpty ? event.users?.join(', ') : 'Aucun'}'),
+          ,*/
           ],
         ),
       ),
