@@ -1,120 +1,84 @@
-import 'package:flutter_mlp/main.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mlp/pages/profil_page.dart';
-import 'package:flutter_mlp/pages/register_page.dart';
+import 'package:flutter_mlp/class/auth.dart';
 import 'package:flutter_mlp/database/db_class.dart';
-import 'package:mongo_dart/mongo_dart.dart';
+import 'package:flutter_mlp/pages/home_page.dart';
+import 'package:flutter_mlp/pages/register_page.dart';
+import 'package:provider/provider.dart';
 
-
-class Login extends StatelessWidget{
-  Login({Key? key}) : super(key: key);
-
+class LoginPage extends StatefulWidget{
+  const LoginPage({super.key});
   @override
-  Widget build(BuildContext context){
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: const Text('Connexion')),
-        body: Column(
-          children: <Widget>[
-            LoginPage(),
-            Buttons(),
-          ],)
-      ),
-    );
-  }
+  LoginPageState createState() => LoginPageState();
 }
 
-
-
-class LoginPage extends StatelessWidget{
-  LoginPage({Key? key}) : super(key:key);
-
-  @override
-  Widget build(BuildContext context){
-    return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Email'
-              ),
-            ),
-            TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Mot de passe',
-              ),
-            ),
-          ]);
-    }
-}
-
-
-
-class Buttons extends StatelessWidget{
-  Buttons({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context){
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          FloatingActionButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => MyApp()),
-              );
-            },
-            tooltip: 'Se connecter',
-          ),
-          FloatingActionButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => RegisterPage()),
-              );
-            },
-            tooltip: 'Creer un compte',
-          )
-        ],
-      );
-  }
-}
-
-/*
-class ValidateButton extends StatelessWidget {
-  final TextEditingController usernameController;
-  final TextEditingController passwordController;
-  final DbConnect dbConnect;
-
-  ValidateButton({Key? key, required this.usernameController, required this.passwordController, required this.dbConnect}) : super(key: key);
-
+class LoginPageState extends State<LoginPage>{
+  final List<User> users = [];
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final TextEditingController nameController = TextEditingController() ;
+  final TextEditingController passwordController = TextEditingController() ;
+ 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: ElevatedButton(
-        onPressed: () async {
-          bool isAuthenticated = await dbConnect.LoginUser(
-            usernameController.text,
-            passwordController.text
-          );
-
-          if (isAuthenticated) {
-            Navigator.pushReplacement(  // Use pushReplacement to replace the current route with the new one
-              context,
-              MaterialPageRoute(builder: (context) => ProfilPage()),  // Redirect to the profile page or the main home page of your app
-            );
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Nom d\'utilisateur ou mot de passe incorrect')),
-            );
-          }
-        },
-        child: Text('Valider'),
+    
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Connexion'),
       ),
+      
+      body:
+        Form(
+            key: formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  onChanged: (value) => nameController,
+                  validator: (value) => value!.isEmpty ? 'Champ requis' : null,
+                  decoration: InputDecoration(labelText: 'Veuillez saisir votre email'),
+                ),
+                TextFormField(
+                  onChanged: (value) => passwordController,
+                  validator: (value) => value!.isEmpty ? 'Champ requis' : null,
+                  decoration: InputDecoration(labelText: 'Veuillez saisir votre mot de passe'),
+                ),
+                ElevatedButton(
+                onPressed: () async {
+                
+                    print("Clicked");
+                    bool isAuthenticated = await DbConnect.loginUser(
+                      context,
+                      nameController.text,
+                      passwordController.text,
+                    );  
+                    if (isAuthenticated) {
+                      // Provider.of<UserProvider>(context, listen: false).setUser(users);
+                        print("test");
+                        Navigator.pushNamed(context, '/');
+    
+                    } else {
+                      print("test2");
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Nom d\'utilisateur ou mot de passe incorrect')),);}
+                
+                },
+                
+                    
+                  
+                  child: Text('Connexion'),
+                ),
+                TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => RegisterPage()),
+                  );
+                },
+                child: Text('S\'inscrire'),
+                ),
+              ],
+            ),
+          ),
+          
     );
+    
   }
-}*/
+}
 
