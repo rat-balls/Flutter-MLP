@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mlp/pages/form/comp_page.dart';
 import 'package:flutter_mlp/pages/form/lesson_page.dart';
 import 'package:flutter_mlp/pages/form/party_page.dart';
-import 'package:flutter_mlp/widgets/navbar_sous_page.dart';
 
 class EventsPage extends StatelessWidget {
   const EventsPage({super.key});

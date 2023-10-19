@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mlp/database/db_class.dart';
-import 'package:flutter_mlp/pages/events_page.dart';
-import 'package:flutter_mlp/pages/home_page.dart';
-import 'package:flutter_mlp/pages/profil_page.dart';
-import 'package:flutter_mlp/pages/riders_page.dart';
 import 'package:flutter_mlp/widgets/controllerPage.dart';
 
 void main() {
