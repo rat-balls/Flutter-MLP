@@ -31,9 +31,7 @@ class LoginPage extends StatelessWidget{
 
   @override
   Widget build(BuildContext context){
-    return Center(
-      child:
-        Column(
+    return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
@@ -47,9 +45,7 @@ class LoginPage extends StatelessWidget{
                 labelText: 'Mot de passe',
               ),
             ),
-          ],
-        ),
-      );
+          ]);
     }
 }
 
@@ -60,8 +56,7 @@ class Buttons extends StatelessWidget{
 
   @override
   Widget build(BuildContext context){
-    return Center(
-      child: Row(
+    return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           FloatingActionButton(
@@ -83,11 +78,11 @@ class Buttons extends StatelessWidget{
             tooltip: 'Creer un compte',
           )
         ],
-      )
-    );
+      );
   }
 }
 
+/*
 class ValidateButton extends StatelessWidget {
   final TextEditingController usernameController;
   final TextEditingController passwordController;
@@ -103,7 +98,7 @@ class ValidateButton extends StatelessWidget {
         onPressed: () async {
           bool isAuthenticated = await dbConnect.LoginUser(
             usernameController.text,
-            passwordController.text,
+            passwordController.text
           );
 
           if (isAuthenticated) {
@@ -121,5 +116,5 @@ class ValidateButton extends StatelessWidget {
       ),
     );
   }
-}
+}*/
 
