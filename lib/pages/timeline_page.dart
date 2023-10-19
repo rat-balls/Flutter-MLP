@@ -19,6 +19,7 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
   var _focusedCalendarDate = DateTime.now();
   final _initialCalendarDate = DateTime.now();
   final _lastCalendarDate = DateTime(2050);
+  Sort sortMethod = Sort.all;
   DateTime? selectedCalendarDate;
 
   late Map<DateTime, List<Event>>? _mySelectedEvents;
@@ -37,19 +38,41 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
     selectedCalendarDate = _focusedCalendarDate;
     super.initState();
 
-    Future.delayed(const Duration(seconds: 10), () async {
+    Future.delayed(const Duration(seconds: 3), () async {
       await _getCoursInfo();
     });
   }
 
   List<Event> _listOfDayEvents(DateTime dateTime) {
-    if(!_coursLoaded) {
-      return [];
+    if(_coursLoaded) {
+      DateTime? date = DateTime.parse(
+          DateFormat('yyyy-MM-dd').format(dateTime));
+      List<Event> eventsToReturn = [];
+
+      if (sortMethod == Sort.all) {
+        return _mySelectedEvents?[date] ?? [];
+      } else if (sortMethod == Sort.cours) {
+        _mySelectedEvents?[date]?.forEach((event) {
+          if (event.type == 'Cours') {
+            eventsToReturn.add(event);
+          }
+        });
+      } else if (sortMethod == Sort.soiree) {
+        _mySelectedEvents?[date]?.forEach((event) {
+          if (event.type == 'Soiree') {
+            eventsToReturn.add(event);
+          }
+        });
+      } else if (sortMethod == Sort.concours) {
+        _mySelectedEvents?[date]?.forEach((event) {
+          if (event.type == 'Concours') {
+            eventsToReturn.add(event);
+          }
+        });
+      }
+      return eventsToReturn;
     } else {
-      DateTime? date = DateTime.parse(DateFormat('yyyy-MM-dd').format(dateTime));
-      print(date);
-      print(_mySelectedEvents?[date]);
-      return _mySelectedEvents?[date] ?? [];
+      return [];
     }
   }
 
@@ -88,20 +111,25 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
                 rowHeight: 60.0,
                 // this property needs to be added if we want to show events
                 eventLoader: _listOfDayEvents,
+                onFormatChanged: (format) {
+                  setState(() {
+                    sortMethod = Sort.values[sortMethod.index == Sort.values.length - 1 ? 0 : sortMethod.index + 1];
+                  });
+                },
                 // Calendar Header Styling
                 headerStyle: HeaderStyle(
                   titleTextStyle:
                   TextStyle(color: AppColors().unselectedItemColor, fontSize: 20.0),
                   decoration: BoxDecoration(
                       color: AppColors().bgColor,
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(10),
                           topRight: Radius.circular(10))),
                   formatButtonTextStyle:
                     TextStyle(color: AppColors().unselectedItemColor, fontSize: 16.0),
                   formatButtonDecoration: BoxDecoration(
-                    color: AppColors().bgColor,
-                    borderRadius: BorderRadius.all(
+                    color: AppColors().selectedItemColor,
+                    borderRadius: const BorderRadius.all(
                       Radius.circular(5.0),
                     ),
                   ),
@@ -136,7 +164,7 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
                     shape: BoxShape.circle,
                   ),
                   markerDecoration: BoxDecoration(
-                      color: AppColors().selectedItemColor, shape: BoxShape.circle),
+                      color: AppColors().bgColor, shape: BoxShape.circle),
                 ),
                 selectedDayPredicate: (currentSelectedDate) {
                   // as per the documentation 'selectedDayPredicate' needs to determine
@@ -156,16 +184,19 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
               ),
             ),
             ..._listOfDayEvents(selectedCalendarDate!).map(
-                  (myEvents) => ListTile(
+                  (event) => ListTile(
                 leading: Icon(
                   Icons.done,
                   color: AppColors().selectedItemColor,
                 ),
                 title: Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Text("Type:   ${myEvents.type}"),
+                  child: Text("Type:   ${event.type}"),
                 ),
-                subtitle: Text('Discipline:   ${myEvents.discipline}'),
+                subtitle: Text('Discipline:   ${event.discipline}'),
+                    trailing: Text('Heure: ${event.time != null ?
+                    DateFormat('kk:mm').format(event.time as DateTime) : 'Heure non planifiée'
+                    }'),
               ),
             ),
           ],
@@ -173,4 +204,11 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
       ),
     );
   }
+}
+
+enum Sort {
+  all,
+  cours,
+  soiree,
+  concours
 }

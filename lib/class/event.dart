@@ -100,6 +100,7 @@ class Event {
           users: event?['users'],
           creator: event['creator'],
           date: DateTime.parse(DateFormat('yyyy-MM-dd').format(event['date'])),
+          time: DateTime.parse(DateFormat('yyyy-MM-dd kk:mm:ss').format(event['date'])),
           discipline: event['discipline'],
           duree: event?['duree'],
           etat: event?['etat'],
