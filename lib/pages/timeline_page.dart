@@ -1,133 +1,79 @@
 import 'dart:ffi';
 import 'package:flutter/material.dart';
-import 'package:flutter_mlp/class/dummy_class.dart';
 import 'package:flutter_mlp/widgets/controllerPage.dart';
+import 'package:intl/intl.dart';
+import 'package:flutter_mlp/class/event.dart';
 import 'package:table_calendar/table_calendar.dart';
+
+import '../class/app_colors.dart';
 
 class TimelineCalendarPage extends StatefulWidget {
   const TimelineCalendarPage({Key? key, }) : super(key: key);
-
 
   @override
   _TimelineCalendarPageState createState() => _TimelineCalendarPageState();
 }
 
 class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
-  final Color _selectedItemColor = Color.fromARGB(255, 160, 0, 218);
-  final Color _unselectedItemColor = Color.fromARGB(255, 255, 240, 240);
-  final Color _bgColor = Color.fromARGB(255, 247, 184, 247);
   final todaysDate = DateTime.now();
   var _focusedCalendarDate = DateTime.now();
-  final _initialCalendarDate = DateTime(2000);
+  final _initialCalendarDate = DateTime.now();
   final _lastCalendarDate = DateTime(2050);
+  Sort sortMethod = Sort.all;
   DateTime? selectedCalendarDate;
-  final titleController = TextEditingController();
-  final descpController = TextEditingController();
 
-  late Map<DateTime, List<MyEvents>> mySelectedEvents;
+  late Map<DateTime, List<Event>>? _mySelectedEvents;
+  bool _coursLoaded = false;
+
+  Future<void> _getCoursInfo() async {
+    Map<DateTime, List<Event>>? mySelectedEvents = await Event.getAllEventsTimed();
+    setState(() {
+      _mySelectedEvents = mySelectedEvents;
+      _coursLoaded = true;
+    });
+  }
 
   @override
   void initState() {
     selectedCalendarDate = _focusedCalendarDate;
-    mySelectedEvents = {};
     super.initState();
+
+    Future.delayed(const Duration(seconds: 3), () async {
+      await _getCoursInfo();
+    });
   }
 
-  @override
-  void dispose() {
-    titleController.dispose();
-    descpController.dispose();
-    super.dispose();
-  }
+  List<Event> _listOfDayEvents(DateTime dateTime) {
+    if(_coursLoaded) {
+      DateTime? date = DateTime.parse(
+          DateFormat('yyyy-MM-dd').format(dateTime));
+      List<Event> eventsToReturn = [];
 
-  List<MyEvents> _listOfDayEvents(DateTime dateTime) {
-    return mySelectedEvents[dateTime] ?? [];
-  }
-
-  _showAddEventDialog() async {
-    await showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('New Event'),
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              buildTextField(
-                  controller: titleController, hint: 'Enter Title'),
-              const SizedBox(
-                height: 20.0,
-              ),
-              buildTextField(
-                  controller: descpController, hint: 'Enter Description'),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                if (titleController.text.isEmpty &&
-                    descpController.text.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Please enter title & description'),
-                      duration: Duration(seconds: 3),
-                    ),
-                  );
-                  //Navigator.pop(context);
-                  return;
-                } else {
-                  setState(() {
-                    if (mySelectedEvents[selectedCalendarDate] != null) {
-                      mySelectedEvents[selectedCalendarDate]?.add(MyEvents(
-                          eventTitle: titleController.text,
-                          eventDescp: descpController.text));
-                    } else {
-                      mySelectedEvents[selectedCalendarDate!] = [
-                        MyEvents(
-                            eventTitle: titleController.text,
-                            eventDescp: descpController.text)
-                      ];
-                    }
-                  });
-
-                  titleController.clear();
-                  descpController.clear();
-
-                  Navigator.pop(context);
-                  return;
-                }
-              },
-              child: const Text('Add'),
-            ),
-          ],
-        ));
-  }
-
-  Widget buildTextField(
-      {String? hint, required TextEditingController controller}) {
-    return TextField(
-      controller: controller,
-      textCapitalization: TextCapitalization.words,
-      decoration: InputDecoration(
-        labelText: hint ?? '',
-        focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Color.fromARGB(255, 247, 184, 247), width: 1.5),
-          borderRadius: BorderRadius.circular(
-            10.0,
-          ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Color.fromARGB(255, 247, 184, 247), width: 1.5),
-          borderRadius: BorderRadius.circular(
-            10.0,
-          ),
-        ),
-      ),
-    );
+      if (sortMethod == Sort.all) {
+        return _mySelectedEvents?[date] ?? [];
+      } else if (sortMethod == Sort.cours) {
+        _mySelectedEvents?[date]?.forEach((event) {
+          if (event.type == 'Cours') {
+            eventsToReturn.add(event);
+          }
+        });
+      } else if (sortMethod == Sort.soiree) {
+        _mySelectedEvents?[date]?.forEach((event) {
+          if (event.type == 'Soiree') {
+            eventsToReturn.add(event);
+          }
+        });
+      } else if (sortMethod == Sort.concours) {
+        _mySelectedEvents?[date]?.forEach((event) {
+          if (event.type == 'Concours') {
+            eventsToReturn.add(event);
+          }
+        });
+      }
+      return eventsToReturn;
+    } else {
+      return [];
+    }
   }
 
   @override
@@ -139,11 +85,11 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
             Card(
               margin: const EdgeInsets.all(8.0),
               elevation: 5.0,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
+              shape: RoundedRectangleBorder(
+                borderRadius: const BorderRadius.all(
                   Radius.circular(10),
                 ),
-                side: BorderSide(color: Color.fromARGB(255, 247, 184, 247), width: 2.0),
+                side: BorderSide(color: AppColors().bgColor, width: 2.0),
               ),
               child: TableCalendar(
                 focusedDay: _focusedCalendarDate,
@@ -165,55 +111,60 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
                 rowHeight: 60.0,
                 // this property needs to be added if we want to show events
                 eventLoader: _listOfDayEvents,
+                onFormatChanged: (format) {
+                  setState(() {
+                    sortMethod = Sort.values[sortMethod.index == Sort.values.length - 1 ? 0 : sortMethod.index + 1];
+                  });
+                },
                 // Calendar Header Styling
-                headerStyle: const HeaderStyle(
+                headerStyle: HeaderStyle(
                   titleTextStyle:
-                  TextStyle(color: Color.fromARGB(255, 255, 240, 240), fontSize: 20.0),
+                  TextStyle(color: AppColors().unselectedItemColor, fontSize: 20.0),
                   decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 247, 184, 247),
-                      borderRadius: BorderRadius.only(
+                      color: AppColors().bgColor,
+                      borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(10),
                           topRight: Radius.circular(10))),
                   formatButtonTextStyle:
-                    TextStyle(color: Color.fromARGB(255, 255, 240, 240), fontSize: 16.0),
+                    TextStyle(color: AppColors().unselectedItemColor, fontSize: 16.0),
                   formatButtonDecoration: BoxDecoration(
-                    color: Color.fromARGB(255, 247, 184, 247),
-                    borderRadius: BorderRadius.all(
+                    color: AppColors().selectedItemColor,
+                    borderRadius: const BorderRadius.all(
                       Radius.circular(5.0),
                     ),
                   ),
                   leftChevronIcon: Icon(
                     Icons.chevron_left,
-                    color: Color.fromARGB(255, 255, 240, 240),
+                    color: AppColors().unselectedItemColor,
                     size: 28,
                   ),
                   rightChevronIcon: Icon(
                     Icons.chevron_right,
-                    color: Color.fromARGB(255, 255, 240, 240),
+                    color: AppColors().unselectedItemColor,
                     size: 28,
                   ),
                 ),
                 // Calendar Days Styling
-                daysOfWeekStyle: const DaysOfWeekStyle(
+                daysOfWeekStyle: DaysOfWeekStyle(
                   // Weekend days color (Sat,Sun)
-                  weekendStyle: TextStyle(color: Color.fromARGB(255, 160, 0, 218)),
+                  weekendStyle: TextStyle(color: AppColors().selectedItemColor),
                 ),
                 // Calendar Dates styling
-                calendarStyle: const CalendarStyle(
+                calendarStyle: CalendarStyle(
                   // Weekend dates color (Sat & Sun Column)
-                  weekendTextStyle: TextStyle(color: Color.fromARGB(255, 160, 0, 218)),
+                  weekendTextStyle: TextStyle(color: AppColors().selectedItemColor),
                   // highlighted color for today
-                  todayDecoration: BoxDecoration(
-                    color: Color.fromARGB(255, 160, 0, 218),
+                  todayDecoration: const BoxDecoration(
+                    color: Colors.black45,
                     shape: BoxShape.circle,
                   ),
                   // highlighted color for selected day
                   selectedDecoration: BoxDecoration(
-                    color: Colors.black45,
+                    color: AppColors().selectedItemColor,
                     shape: BoxShape.circle,
                   ),
                   markerDecoration: BoxDecoration(
-                      color: Color.fromARGB(255, 160, 0, 218), shape: BoxShape.circle),
+                      color: AppColors().bgColor, shape: BoxShape.circle),
                 ),
                 selectedDayPredicate: (currentSelectedDate) {
                   // as per the documentation 'selectedDayPredicate' needs to determine
@@ -233,16 +184,19 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
               ),
             ),
             ..._listOfDayEvents(selectedCalendarDate!).map(
-                  (myEvents) => ListTile(
-                leading: const Icon(
+                  (event) => ListTile(
+                leading: Icon(
                   Icons.done,
-                  color: Colors.pinkAccent,
+                  color: AppColors().selectedItemColor,
                 ),
                 title: Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Text('Event Title:   ${myEvents.eventTitle}'),
+                  child: Text("Type:   ${event.type}"),
                 ),
-                subtitle: Text('Description:   ${myEvents.eventDescp}'),
+                subtitle: Text('Discipline:   ${event.discipline}'),
+                    trailing: Text('Heure: ${event.time != null ?
+                    DateFormat('kk:mm').format(event.time as DateTime) : 'Heure non planifiée'
+                    }'),
               ),
             ),
           ],
@@ -252,27 +206,9 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
   }
 }
 
-class Cours {
-  final List chevaux;
-  final String terrain;
-  final int duree;
-  final String discipline;
-  final bool etat;
-
-  Cours({required this.chevaux,
-    required this.terrain,
-    required this.duree,
-    required this.discipline,
-    required this.etat,
-  });
-}
-
-class MyEvents {
-  final String eventTitle;
-  final String eventDescp;
-
-  MyEvents({required this.eventTitle, required this.eventDescp});
-
-  @override
-  String toString() => eventTitle;
+enum Sort {
+  all,
+  cours,
+  soiree,
+  concours
 }
