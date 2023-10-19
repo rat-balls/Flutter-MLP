@@ -129,8 +129,15 @@ class _FormLessonPageState extends State<FormLessonPage> {
                         indexPlace = 0;
                       });
                     },
-                    child: Image.asset(
-                      "assets/images/exterior.jpg",
+                    child: ColorFiltered(
+                      colorFilter: indexPlace == 0
+                          ? const ColorFilter.mode(
+                              Colors.transparent, BlendMode.srcOver)
+                          : const ColorFilter.mode(
+                              Colors.grey, BlendMode.saturation),
+                      child: Image.asset(
+                        "assets/images/exterior.jpg",
+                      ),
                     ),
                   ),
                 ),
@@ -143,8 +150,15 @@ class _FormLessonPageState extends State<FormLessonPage> {
                         indexPlace = 1;
                       });
                     },
-                    child: Image.asset(
-                      "assets/images/interior.jpg",
+                    child: ColorFiltered(
+                      colorFilter: indexPlace == 1
+                          ? const ColorFilter.mode(
+                              Colors.transparent, BlendMode.srcOver)
+                          : const ColorFilter.mode(
+                              Colors.grey, BlendMode.saturation),
+                      child: Image.asset(
+                        "assets/images/interior.jpg",
+                      ),
                     ),
                   ),
                 ),

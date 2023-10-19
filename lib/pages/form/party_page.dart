@@ -79,38 +79,62 @@ class _FormPartyPageState extends State<FormPartyPage> {
                     Row(
                       children: [
                         Expanded(
-                            child: Card(
-                                child: InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        repasIndex = 0;
-                                      });
-                                    },
-                                    child: Image.asset(
-                                      "assets/images/apero.jpg",
-                                    )))),
+                          child: Card(
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  repasIndex = 0;
+                                });
+                              },
+                              child: ColorFiltered(
+                                colorFilter: repasIndex == 0
+                                    ? const ColorFilter.mode(
+                                        Colors.transparent, BlendMode.srcOver)
+                                    : const ColorFilter.mode(
+                                        Colors.grey, BlendMode.saturation),
+                                child: Image.asset("assets/images/jeu.jpg"),
+                              ),
+                            ),
+                          ),
+                        ),
                         Expanded(
-                            child: Card(
-                                child: InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        repasIndex = 1;
-                                      });
-                                    },
-                                    child: Image.asset(
-                                      "assets/images/repas.jpg",
-                                    )))),
+                          child: Card(
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  repasIndex = 1;
+                                });
+                              },
+                              child: ColorFiltered(
+                                colorFilter: repasIndex == 1
+                                    ? const ColorFilter.mode(
+                                        Colors.transparent, BlendMode.srcOver)
+                                    : const ColorFilter.mode(
+                                        Colors.grey, BlendMode.saturation),
+                                child: Image.asset("assets/images/jeu.jpg"),
+                              ),
+                            ),
+                          ),
+                        ),
                         Expanded(
-                            child: Card(
-                                child: InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        repasIndex = 2;
-                                      });
-                                    },
-                                    child: Image.asset(
-                                      "assets/images/jeu.jpg",
-                                    )))),
+                          child: Card(
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  repasIndex = 2;
+                                });
+                              },
+                              child: ColorFiltered(
+                                colorFilter: repasIndex == 2
+                                    ? const ColorFilter.mode(
+                                        Colors.transparent, BlendMode.srcOver)
+                                    : const ColorFilter.mode(
+                                        Colors.grey, BlendMode.saturation),
+                                child: Image.asset("assets/images/jeu.jpg"),
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                     Card(
@@ -133,8 +157,8 @@ class _FormPartyPageState extends State<FormPartyPage> {
                               onPressed: () {
                                 _showDatePiker();
                               },
-                              child: const Text('Calendrier'),
                               color: const Color.fromARGB(255, 247, 184, 247),
+                              child: const Text('Calendrier'),
                             ),
                           ],
                         ))
