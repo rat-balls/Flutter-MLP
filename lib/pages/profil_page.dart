@@ -28,7 +28,7 @@ class _ProfilPageState extends State<ProfilPage> {
   bool _userHorsesDpDataLoaded = false;
 
   Future<void> _getUserInfo() async {
-    User? userInfo = await User.getUserInfo('bob@example.com');
+    User? userInfo = await User.getUserInfo('alice@example.com');
     setState(() {
       _user = userInfo;
       _userDataLoaded = true;
@@ -63,7 +63,7 @@ class _ProfilPageState extends State<ProfilPage> {
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(seconds: 5), () async {
+    Future.delayed(const Duration(seconds: 3), () async {
       await _getUserInfo();
       await _getHorses();
       await _getOwnedHorses();
@@ -74,53 +74,52 @@ class _ProfilPageState extends State<ProfilPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-            child: _userDataLoaded &&
-                    _horsesDataLoaded &&
-                    _ownedHorsesDataLoaded &&
-                    _userHorsesDpDataLoaded
-                ? ListView(
-                    children: [
-                      UserCard(user: _user!),
-                      ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              shape: const ContinuousRectangleBorder(),
-                              backgroundColor:
-                                  const Color.fromARGB(255, 247, 184, 247)),
-                          onPressed: () => showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: const Text("Modification du profil"),
-                                    content: AddHorseForm(
-                                      user: _user!,
-                                    ),
-                                  );
-                                },
-                              ),
-                          child: const Text("Ajouter un cheval")),
-                      SectionWidget(
-                        title: "Mes Chevaux",
-                        dataLoaded: _ownedHorsesDataLoaded,
-                        horseList: _ownedHorsesList!,
-                        user: _user!,
-                      ),
-                      SectionWidget(
-                        title: "Mes Demis pensions",
-                        dataLoaded: _userHorsesDpDataLoaded,
-                        horseList: _userHorsesDp!,
-                        user: _user!,
-                      ),
-                      SectionWidget(
-                        title: "Les chevaux",
-                        dataLoaded: _horsesDataLoaded,
-                        horseList: _horseList!,
-                        user: _user!,
-                      ),
-                    ],
-                  )
-                : const Center(
-                    child: CircularProgressIndicator(),
-                  )));
+        body: _userDataLoaded &&
+                _horsesDataLoaded &&
+                _ownedHorsesDataLoaded &&
+                _userHorsesDpDataLoaded
+            ? ListView(
+                children: [
+                  UserCard(user: _user!),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          shape: const ContinuousRectangleBorder(),
+                          backgroundColor:
+                              const Color.fromARGB(255, 247, 184, 247)),
+                      onPressed: () => showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text("Modification du profil"),
+                                content: AddHorseForm(
+                                  user: _user!,
+                                ),
+                              );
+                            },
+                          ),
+                      child: const Text("Ajouter un cheval")),
+                  SectionWidget(
+                    title: "Mes Chevaux",
+                    dataLoaded: _ownedHorsesDataLoaded,
+                    horseList: _ownedHorsesList!,
+                    user: _user!,
+                  ),
+                  SectionWidget(
+                    title: "Mes DP",
+                    dataLoaded: _userHorsesDpDataLoaded,
+                    horseList: _userHorsesDp!,
+                    user: _user!,
+                  ),
+                  SectionWidget(
+                    title: "Les chevaux",
+                    dataLoaded: _horsesDataLoaded,
+                    horseList: _horseList!,
+                    user: _user!,
+                  ),
+                ],
+              )
+            : const Center(
+                child: CircularProgressIndicator(),
+              ));
   }
 }

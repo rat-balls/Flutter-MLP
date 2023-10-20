@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mlp/class/users/horse.dart';
 import 'package:flutter_mlp/class/user_profil/user_profil.dart';
+import 'package:flutter_mlp/pages/profil_page.dart';
 
 class EditHorseForm extends StatefulWidget {
   const EditHorseForm({super.key, required this.horse});
@@ -115,7 +116,10 @@ class _EditHorseFormState extends State<EditHorseForm> {
                       .toList(),
                 );
                 Horse.updateHorseInfo(updatedHorse);
-                Navigator.pop(context);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfilPage()),
+                );
               }
             },
             child: const Text('Modifier'),
