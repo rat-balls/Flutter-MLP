@@ -68,15 +68,16 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             ElevatedButton(
               onPressed: () {
-                           User newUser = User(
+                User newUser = User(
                     firstname: firstnameController.text,
                     lastname: lastnameController.text,
                     age: ageController.text,
                     phonenumbers: phonenumberController.text,
                     ffe: ffeController.text,
-                    email: emailController.text);
+                    email: emailController.text,
+                    password: passwordController.text);
 
-                    newUser.userRegister(newUser);
+                newUser.userRegister(newUser);
               },
               child: Text('Inscription'),
             ),
