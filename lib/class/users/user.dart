@@ -26,6 +26,8 @@ class User extends ChangeNotifier {
   String? password;
   bool isAuthenticated = false;
 
+  static late User currentUser;
+
   static Future<User?> getUserInfo(String email) async {
     var db = DbConnect().dbref;
     var userCollection = db.collection('Users');
@@ -210,15 +212,125 @@ class User extends ChangeNotifier {
     return null;
   }
 
-    void login(String username, String email, String phone, String profilePic, String age, String ffe, String role, String level) {
-    lastname = lastname;
-    this.email = email;
-    phonenumbers = phonenumbers;
-    // this.profilePic = profilePic;
-    this.age = age;
-    this.ffe = ffe;
-    // this.role = role;
-    isAuthenticated = true;
-    notifyListeners();
+Future<void> userRegister(User user) async{
+  var db = DbConnect().dbref;
+  var collection = db.collection('Users');
+  try {
+    await collection.insertOne({
+       'firstname':user.firstname,
+      'lastname': user.lastname,
+      'age': user.age,
+      'ffe': user.ffe,
+      'phonenumber': user.phonenumbers,
+      'password': user.password,
+      'email': user.email,
+      'isAdmin': user.isAdmin,
+    }
+    );
+    print("User inscrit");
+  } catch (e) {
+    print('Erreur lors de l\'inscription: $e');
   }
+
+}
+
+static Future<bool> loginUser(String email, String password) async {
+  var db = DbConnect().dbref;
+  var collection = db.collection('Users');
+  try {
+    var result = await collection.findOne(where.eq ("email", email).eq("password", password));
+    if (result != null) {
+      currentUser = User(id: result["_id"], firstname: result["firstname"], lastname: result["lastname"], age: result["age"], phonenumbers: result["phonenumber"], ffe: result["ffe"], email: result["email"], isAdmin: result["isAdmin"]);
+    }
+    return result != null;
+
+  } catch (e) {
+    print('La connexion a exhoue $e');
+    return false;
+  }
+
+
+}
+    
+
+//     void login(String username, String email, String phone, String profilePic, String age, String ffe, String role, String level) {
+//     lastname = lastname;
+//     this.email = email;
+//     phonenumbers = phonenumbers;
+//     // this.profilePic = profilePic;
+//     this.age = age;
+//     this.ffe = ffe;
+//     // this.role = role;
+//     isAuthenticated = true;
+//     notifyListeners();
+//   }
+// }
+// Future<bool> loginUser(BuildContext context, String name, String password) async {
+//     try {
+//       DbConnect dbConnect = DbConnect();
+//       await dbConnect.connectToDb(); 
+//       var collection = dbConnect.dbref.collection('Users');
+//       var user = await collection.findOne({
+//         'name': name,
+//         'password': password 
+//       });
+//        await dbConnect.dbref.close(); 
+
+//       bool isUserValid = user != null;
+//       if (isUserValid) {
+//         String? email = await DbConnect.getEmailFromName(name);
+//         if (email != null) {
+//           Provider.of<User>(context, listen: false).login(name, email, "phone", "profilePic", "0", "ffelink", "role", "level");
+//           return true;
+//         } else {
+//           print("Erreur lors de la récupération de l'email");
+//           return false;
+//         }
+//       }
+//       return false;
+//     } catch (e) {
+//       print("Error in loginUser: $e");
+//       return false;
+//     }
+//   }
+
+//  Future<String?> getEmailFromName(String lastname) async {
+//   try {
+//     DbConnect dbConnect = DbConnect();
+//     await dbConnect.connectToDb();
+//     var collection = dbConnect.dbref.collection('users');
+//     var user = await collection.findOne({'lastname': lastname});
+//    await dbConnect.dbref.close(); 
+//     return user?['email'];
+//     } catch (e) {
+//       print('Error fetching email: $e');
+//       return null;
+//     }
+// }
+
+//  Future<bool> registerUser(String name, String firstname, String age, String ffe, String mail, String number, String role, String password) async {
+//     try {
+//       if (isConnected) {
+//         var collection = _dbref.collection('Users');
+//         var result = await collection.insert({
+//           'name': name,
+//           'firstname': firstname,
+//           'age': age,
+//           'ffe': ffe,
+//           'mail': mail,
+//           'number': number,
+//           'role': role,
+//           'password': password,
+//         });
+//         return result != null;
+//       } else {
+//         print("Not connected to the database.");
+//         return false;
+//       }
+//     } catch (e) {
+//       print("Error in registerUser: $e");
+//       return false;
+//     }
+//   }
+
 }
