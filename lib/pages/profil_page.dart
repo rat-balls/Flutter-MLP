@@ -79,7 +79,7 @@ class _ProfilPageState extends State<ProfilPage> {
                 _userHorsesDpDataLoaded
             ? ListView(
                 children: [
-                  UserCard(user: _user!),
+                  UserCard(user: _user),
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           shape: const ContinuousRectangleBorder(),
