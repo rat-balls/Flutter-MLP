@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mlp/class/event.dart';
+import 'package:flutter_mlp/pages/admin_page.dart';
 import 'package:flutter_mlp/widgets/events_list.dart';
 
 class HomePage extends StatefulWidget {
@@ -9,7 +10,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>{
+class _HomePageState extends State<HomePage> {
   late List<Event>? _events;
   late List<Event>? _valideEvents;
 
@@ -30,21 +31,43 @@ class _HomePageState extends State<HomePage>{
   }
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
 
-    Future.delayed(const Duration(seconds: 5), () async{
+    Future.delayed(const Duration(seconds: 5), () async {
       await _getEvents();
     });
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _eventsDataLoaded
-        ? EventListWidget(eventList: _valideEvents)
-          : const Center(
-              child: CircularProgressIndicator(),
-          ),
+      body: Container(
+        color: const Color.fromARGB(255, 197, 224, 255),
+        child: Stack(
+          children: <Widget>[
+            if (_eventsDataLoaded) EventListWidget(eventList: _valideEvents),
+            Positioned(
+              bottom:
+                  20, // Ajustez la position du bouton comme vous le souhaitez
+              right: 20,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => AdminPage(),
+                    ),
+                  );
+                },
+                child: Badge(
+                  backgroundColor: Colors.pink,
+                  label: Text('10'),
+                  child: Icon(Icons.event_sharp),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

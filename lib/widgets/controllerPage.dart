@@ -30,11 +30,26 @@ class _CustomBottomNavigationBarState extends State<ControllerPage> {
     return Scaffold(
         appBar: AppBar(
           title: [
-            const Text("Accueil"),
-            const Text("Créer des évènements"),
-            const Text("Liste des cavalier et chevaux"),
-            const Text("Calendrier"),
-            const Text("Profil"),
+            const Text(
+              "Accueil",
+              style: TextStyle(fontSize: 25),
+            ),
+            const Text(
+              "Créer des évènements",
+              style: TextStyle(fontSize: 25),
+            ),
+            const Text(
+              "Liste des cavalier et chevaux",
+              style: TextStyle(fontSize: 25),
+            ),
+            const Text(
+              "Calendrier",
+              style: TextStyle(fontSize: 25),
+            ),
+            const Text(
+              "Profil",
+              style: TextStyle(fontSize: 25),
+            ),
           ][_currentIndex],
           titleTextStyle: const TextStyle(fontSize: 18),
           backgroundColor: const Color.fromARGB(255, 247, 184, 247),
