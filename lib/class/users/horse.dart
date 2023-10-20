@@ -137,4 +137,19 @@ class Horse {
       print("Erreur lors de l'ajout du cheval : $e");
     }
   }
+
+  static Future<bool> deleteHorse(ObjectId horseId) async {
+    late bool isDeleted;
+    var db = DbConnect().dbref;
+    var horseCollection = db.collection('Horses');
+
+    try {
+      await horseCollection.remove(where.eq('_id', horseId));
+      return isDeleted = true;
+      print('Cheval supprimé avec succès');
+    } catch (e) {
+      return isDeleted = false;
+      print('Erreur lors de la suppression du Cheval : $e');
+    }
+  }
 }
