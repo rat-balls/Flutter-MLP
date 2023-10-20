@@ -31,7 +31,7 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
   bool _userLoaded = false;
 
   Future<void> _getUserInfo() async {
-    User? userInfo = await User.getUserInfo('alice@example.com');
+    User? userInfo = User.currentUser;
     setState(() {
       _userInfo = userInfo;
       _userLoaded = true;
@@ -107,7 +107,7 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
                 ),
                 side: BorderSide(color: AppColors().bgColor, width: 2.0),
               ),
-              child: TableCalendar(
+              child: _coursLoaded ? TableCalendar(
                 focusedDay: _focusedCalendarDate,
                 // today's date
                 firstDay: _initialCalendarDate,
@@ -227,6 +227,8 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
                     });
                   }
                 },
+              ) : const Center(
+                child: CircularProgressIndicator(),
               ),
             ),
             ..._listOfDayEvents(selectedCalendarDate!).map(
@@ -254,7 +256,7 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
                         : const Text('')
                   ],
                 ),
-              ),
+              )
             ),
           ],
         ),
