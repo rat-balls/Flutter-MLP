@@ -14,7 +14,7 @@ class ProfilPage extends StatefulWidget {
 }
 
 class _ProfilPageState extends State<ProfilPage> {
-  late User? _user;
+  User _user = User.currentUser;
   late List<Horse>? _horseList;
   late List<Horse>? _ownedHorsesList;
   late List<Horse>? _userHorsesDp;
@@ -27,13 +27,13 @@ class _ProfilPageState extends State<ProfilPage> {
   bool _ownedHorsesDataLoaded = false;
   bool _userHorsesDpDataLoaded = false;
 
-  Future<void> _getUserInfo() async {
-    User? userInfo = await User.getUserInfo('alice@example.com');
-    setState(() {
-      _user = userInfo;
-      _userDataLoaded = true;
-    });
-  }
+  // Future<void> _getUserInfo() async {
+  //   User? userInfo = await User.getUserInfo('alice@example.com');
+  //   setState(() {
+  //     _user = userInfo;
+  //     _userDataLoaded = true;
+  //   });
+  // }
 
   Future<void> _getHorses() async {
     List<Horse>? horseList = await Horse.getNonOwnedHorses(_user!.id);
@@ -64,7 +64,7 @@ class _ProfilPageState extends State<ProfilPage> {
     super.initState();
 
     Future.delayed(const Duration(seconds: 3), () async {
-      await _getUserInfo();
+      // await _getUserInfo();
       await _getHorses();
       await _getOwnedHorses();
       await _getUserHorsesDp();
@@ -74,8 +74,7 @@ class _ProfilPageState extends State<ProfilPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: _userDataLoaded &&
-                _horsesDataLoaded &&
+        body: _horsesDataLoaded &&
                 _ownedHorsesDataLoaded &&
                 _userHorsesDpDataLoaded
             ? ListView(

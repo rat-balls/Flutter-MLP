@@ -91,12 +91,6 @@ class SectionWidget extends StatelessWidget {
                                                 onPressed: () {
                                                   User.associateUserWithHorse(
                                                       horse.id, user.id);
-                                                  Navigator.pushReplacement(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            ProfilPage()),
-                                                  );
                                                 },
                                                 child: const Text("Acheter"),
                                               ),

@@ -116,10 +116,6 @@ class _EditHorseFormState extends State<EditHorseForm> {
                       .toList(),
                 );
                 Horse.updateHorseInfo(updatedHorse);
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => ProfilPage()),
-                );
               }
             },
             child: const Text('Modifier'),
