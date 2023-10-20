@@ -28,7 +28,7 @@ class _ProfilPageState extends State<ProfilPage> {
   bool _userHorsesDpDataLoaded = false;
 
   Future<void> _getUserInfo() async {
-    User? userInfo = await User.getUserInfo('bob@example.com');
+    User? userInfo = await User.getUserInfo('alice@example.com');
     setState(() {
       _user = userInfo;
       _userDataLoaded = true;
@@ -63,7 +63,7 @@ class _ProfilPageState extends State<ProfilPage> {
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(seconds: 5), () async {
+    Future.delayed(const Duration(seconds: 3), () async {
       await _getUserInfo();
       await _getHorses();
       await _getOwnedHorses();
@@ -105,7 +105,7 @@ class _ProfilPageState extends State<ProfilPage> {
                     user: _user!,
                   ),
                   SectionWidget(
-                    title: "Mes Demis pensions",
+                    title: "Mes DP",
                     dataLoaded: _userHorsesDpDataLoaded,
                     horseList: _userHorsesDp!,
                     user: _user!,
