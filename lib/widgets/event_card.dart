@@ -18,6 +18,7 @@ class _EventCardState extends State<EventCard> {
   @override
   void initState() {
     _event = widget.event;
+
     super.initState();
   }
 
@@ -53,32 +54,34 @@ class _EventCardState extends State<EventCard> {
               ],
             ),
             Container(
-              child: Column(
-                children: [
-                  Container(
-                    child: IconButton(
-                      iconSize: 40,
-                      color: Colors.green,
-                      onPressed: () {
-                        setState(() {
-                          Event.acceptEvent(_event.id);
-                        });
-                      },
-                      icon: Icon(Icons.add),
+              child: widget.event.etat == true
+                  ? null
+                  : Column(
+                      children: [
+                        Container(
+                          child: IconButton(
+                            iconSize: 40,
+                            color: Colors.green,
+                            onPressed: () {
+                              setState(() {
+                                Event.acceptEvent(_event.id);
+                              });
+                            },
+                            icon: Icon(Icons.add),
+                          ),
+                        ),
+                        Container(
+                          child: IconButton(
+                            iconSize: 40,
+                            color: Colors.red,
+                            onPressed: () {
+                              Event.deleteEvent(_event.id);
+                            },
+                            icon: Icon(Icons.remove),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  Container(
-                    child: IconButton(
-                      iconSize: 40,
-                      color: Colors.red,
-                      onPressed: () {
-                        Event.deleteEvent(_event.id);
-                      },
-                      icon: Icon(Icons.remove),
-                    ),
-                  ),
-                ],
-              ),
             )
 
             /*  Text(
