@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   bool _userLoaded = false;
 
   Future<void> _getUserInfo() async {
-    User? userInfo = await User.getUserInfo('alice@example.com');
+    User? userInfo = User.currentUser;
     setState(() {
       _userInfo = userInfo;
       checkAdmin = userInfo!.isAdmin;
