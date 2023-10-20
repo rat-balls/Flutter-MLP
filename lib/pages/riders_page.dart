@@ -38,7 +38,7 @@ class _RidersPageState extends State<RidersPage> {
   }
 
   Future<void> _checkAdminStatus() async {
-    User? currentUser = await User.getUserInfo('alice@example.com');
+    User? currentUser = await User.currentUser;
     print(currentUser!.isAdmin);
     setState(() {
       isAdmin = currentUser!.isAdmin;
