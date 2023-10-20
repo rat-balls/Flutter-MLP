@@ -238,4 +238,19 @@ class User {
     }
     return null;
   }
+
+  static Future<bool> deleteUser(ObjectId userId) async {
+    late bool isDeleted;
+    var db = DbConnect().dbref;
+    var userCollection = db.collection('Users');
+
+    try {
+      await userCollection.remove(where.eq('_id', userId));
+      return isDeleted = true;
+      print('Utilisateur supprimé avec succès');
+    } catch (e) {
+      return isDeleted = false;
+      print('Erreur lors de la suppression de l\'utilisateur : $e');
+    }
+  }
 }

@@ -18,6 +18,7 @@ class _RidersPageState extends State<RidersPage> {
 
   bool allHorseLoaded = false;
   bool allUserLoaded = false;
+  bool isAdmin = false; // Variable pour suivre si l'utilisateur est administrateur
 
   Future<void> _getHorses() async {
     List<Horse>? horseList = await Horse.getHorses();
@@ -36,13 +37,18 @@ class _RidersPageState extends State<RidersPage> {
     });
   }
 
+  Future<void> _checkAdminStatus() async {
+    User? currentUser = await User.getUserInfo('alice@example.com');
+    print(currentUser!.isAdmin);
+    setState(() {
+      isAdmin = currentUser!.isAdmin;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 5), () async {
-      await _getUsers();
-      await _getHorses();
-    });
+    Future.wait([_checkAdminStatus(), _getUsers(), _getHorses()]);
   }
 
   @override
@@ -50,16 +56,25 @@ class _RidersPageState extends State<RidersPage> {
     return ListView(
       children: [
         allUserLoaded
-            ? RiderListWidget(title: "Liste des cavaliers", riderList: allUser!)
+            ? RiderListWidget(
+          title: "Liste des cavaliers",
+          riderList: allUser!,
+          isAdmin: isAdmin, // Assurez-vous d'avoir isAdmin dans l'état
+          getUsers: _getUsers, // Passez la fonction de récupération des utilisateurs
+        )
             : const Center(
-                child: CircularProgressIndicator(),
-              ),
+          child: CircularProgressIndicator(),
+        ),
         allHorseLoaded
             ? HorsesListWidget(
-                title: "Liste des chevaux", horsesList: allHorse!)
+          title: "Liste des chevaux",
+          horsesList: allHorse!,
+        )
             : const Center(
-                child: CircularProgressIndicator(),
-              ),
+          child: CircularProgressIndicator(),
+        ),
+        if (isAdmin) // Afficher quelque chose si l'utilisateur est administrateur
+          const Text('L\'utilisateur est administrateur'),
       ],
     );
   }
