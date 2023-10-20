@@ -69,6 +69,8 @@ class _RidersPageState extends State<RidersPage> {
             ? HorsesListWidget(
           title: "Liste des chevaux",
           horsesList: allHorse!,
+          isAdmin: isAdmin,
+          getHorses: _getHorses,
         )
             : const Center(
           child: CircularProgressIndicator(),
