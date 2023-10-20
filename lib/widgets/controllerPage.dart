@@ -7,11 +7,10 @@ import 'package:flutter_mlp/pages/profil_page.dart';
 import 'package:flutter_mlp/pages/riders_page.dart';
 import 'package:flutter_mlp/pages/timeline_page.dart';
 
+import '../class/app_colors.dart';
+
 class ControllerPage extends StatefulWidget {
   const ControllerPage({super.key});
-  static const Color _selectedItemColor = Color.fromARGB(255, 160, 0, 218);
-  static const Color _unselectedItemColor = Color.fromARGB(255, 255, 240, 240);
-  static const Color _bgColor = Color.fromARGB(255, 247, 184, 247);
 
   @override
   State<ControllerPage> createState() => _CustomBottomNavigationBarState();
@@ -45,9 +44,9 @@ class _CustomBottomNavigationBarState extends State<ControllerPage> {
           child: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             currentIndex: _currentIndex,
-            selectedItemColor: ControllerPage._selectedItemColor,
-            unselectedItemColor: ControllerPage._unselectedItemColor,
-            backgroundColor: ControllerPage._bgColor,
+            selectedItemColor: AppColors().selectedItemColor,
+            unselectedItemColor: AppColors().unselectedItemColor,
+            backgroundColor: AppColors().bgColor,
             onTap: (index) => setCurrentIndex(index),
             items: const [
               BottomNavigationBarItem(

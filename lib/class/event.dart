@@ -1,5 +1,6 @@
 import 'package:flutter_mlp/database/db_class.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 import '../database/db_class.dart';
@@ -9,6 +10,7 @@ class Event {
   String type;
   List<dynamic>? users;
   DateTime date;
+  DateTime? time;
   ObjectId creator;
   String? place;
   List<dynamic>? horses;
@@ -20,6 +22,7 @@ class Event {
     required this.type,
     this.users,
     required this.date,
+    this.time,
     required this.creator,
     required this.place,
     this.horses,
@@ -41,7 +44,7 @@ class Event {
             id: event['id'],
             type: event['type'],
             users: event?['event'],
-            date: event['date'],
+            date: DateTime.parse(DateFormat('yyyy-MM-dd').format(event['date'])),
             creator: event['creator'],
             place: event['place'],
             horses: event?['horses'],
@@ -81,7 +84,7 @@ class Event {
   }
 
 
-  static Future<Map<DateTime, List<Event>>?> getAllCours() async {
+  static Future<Map<DateTime, List<Event>>?> getAllEventsTimed() async {
     var db = DbConnect().dbref;
     var eventCollection = db.collection('Events');
     List<Event> eventList = [];
@@ -96,12 +99,14 @@ class Event {
           type: event['type'],
           users: event?['users'],
           creator: event['creator'],
-          date: event['date'],
+          date: DateTime.parse(DateFormat('yyyy-MM-dd').format(event['date'])),
+          time: DateTime.parse(DateFormat('yyyy-MM-dd kk:mm:ss').format(event['date'])),
           discipline: event['discipline'],
           duree: event?['duree'],
           etat: event?['etat'],
           place: event['place'],
         );
+        print(eventInfo.date);
         if (eventMap[eventInfo.date] == null) {
           eventMap[eventInfo.date] = [];
         }
