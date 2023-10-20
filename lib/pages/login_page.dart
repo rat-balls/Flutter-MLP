@@ -39,7 +39,7 @@ class LoginPageState extends State<LoginPage>{
                 TextFormField(
                   onChanged: (value) => passwordController,
                   validator: (value) => value!.isEmpty ? 'Champ requis' : null,
-                  decoration: InputDecoration(labelText: 'Veuillez saisir votre mot de passe'),
+                  decoration: const InputDecoration(labelText: 'Veuillez saisir votre mot de passe'),
                 ),
                 ElevatedButton(
                 onPressed: () async {
@@ -51,13 +51,12 @@ class LoginPageState extends State<LoginPage>{
                       passwordController.text,
                     );  
                     if (isAuthenticated) {
-                      // Provider.of<UserProvider>(context, listen: false).setUser(users);
                         print("test");
                         Navigator.pushNamed(context, '/');
     
                     } else {
                       print("test2");
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Nom d\'utilisateur ou mot de passe incorrect')),);}
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Nom d\'utilisateur ou mot de passe incorrect')),);}
                 
                 },
                 

@@ -17,9 +17,9 @@ class DbConnect extends ChangeNotifier {
     _dbref = value;
   }
 
-  Future<void> connectToDb() async {
+Future<void> connectToDb() async {
     try {
-      _dbref = Db(connectionURI);
+      _dbref = await Db.create(connectionURI);
       await _dbref.open();
       print("Connected to MongoDB!");
       isConnected = true;
@@ -39,23 +39,23 @@ class DbConnect extends ChangeNotifier {
     }
   }
 
-  // Méthode pour vérifier si l'utilisateur existe et retourner son email
+  
   static Future<bool> loginUser(BuildContext context, String name, String password) async {
     try {
-      var db = DbConnect(); // Créez une instance de DbConnect
-      await db.connectToDb(); // Connectez-vous à la base de données
-      var collection = db.dbref.collection('users');
+      var dbConnect = DbConnect();
+      await dbConnect.connectToDb(); 
+      var collection = dbConnect.dbref.collection('users');
       var user = await collection.findOne({
         'name': name,
-        'password': password // Attention: stocker des mots de passe en texte brut est une mauvaise pratique!
+        'password': password 
       });
-      db.dbref.close(); // Fermez la connexion à la base de données
+       await dbConnect.dbref.close(); 
 
       bool isUserValid = user != null;
       if (isUserValid) {
         String? email = await DbConnect.getEmailFromName(name);
         if (email != null) {
-          // Provider.of<User>(context, listen: false).login(name, email, "phone", "profilePic", 0, "ffelink", "role", "level");
+          Provider.of<User>(context, listen: false).login(name, email, "phone", "profilePic", "0", "ffelink", "role", "level");
           return true;
         } else {
           print("Erreur lors de la récupération de l'email");
@@ -69,23 +69,18 @@ class DbConnect extends ChangeNotifier {
     }
   }
 
-static Future<String?> getEmailFromName(String name) async {
+static Future<String?> getEmailFromName(String lastname) async {
   try {
-    var db = DbConnect();
-    await db.connectToDb();
-    var collection = db.dbref.collection('users');
-    var user = await collection.findOne({'name': name});
-    db.dbref.close();
-
-    if (user != null) {
-      return user['email']; // Supposons que l'e-mail est stocké sous la clé 'email' dans la base de données
-    } else {
-      return null; // Si l'utilisateur n'est pas trouvé, retournez null
+    var dbConnect = DbConnect();
+    await dbConnect.connectToDb();
+    var collection = dbConnect.dbref.collection('users');
+    var user = await collection.findOne({'lastname': lastname});
+   await dbConnect.dbref.close(); 
+    return user?['email'];
+    } catch (e) {
+      print('Error fetching email: $e');
+      return null;
     }
-  } catch (e) {
-    print("Error in getEmailFromName: $e");
-    return null;
-  }
 }
 
   // Méthode pour enregistrer un utilisateur

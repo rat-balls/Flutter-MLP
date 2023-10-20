@@ -1,8 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_mlp/class/users/horse.dart';
 import 'package:flutter_mlp/database/db_class.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
-class User {
+class User extends ChangeNotifier {
   User(
       {this.id,
       this.isAdmin = false,
@@ -23,6 +24,7 @@ class User {
   String ffe;
   String email;
   String? password;
+  bool isAuthenticated = false;
 
   static Future<User?> getUserInfo(String email) async {
     var db = DbConnect().dbref;
@@ -206,5 +208,17 @@ class User {
           'Erreur lors de la récupération des chevaux dans la liste de DP : $e');
     }
     return null;
+  }
+
+    void login(String username, String email, String phone, String profilePic, String age, String ffe, String role, String level) {
+    lastname = lastname;
+    this.email = email;
+    phonenumbers = phonenumbers;
+    // this.profilePic = profilePic;
+    this.age = age;
+    this.ffe = ffe;
+    // this.role = role;
+    isAuthenticated = true;
+    notifyListeners();
   }
 }
