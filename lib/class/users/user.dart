@@ -6,6 +6,7 @@ class User {
   User(
       {this.id,
       this.isAdmin = false,
+      this.password,
       required this.firstname,
       required this.lastname,
       required this.age,
@@ -21,6 +22,7 @@ class User {
   String phonenumbers;
   String ffe;
   String email;
+  String? password;
 
   static Future<User?> getUserInfo(String email) async {
     var db = DbConnect().dbref;
@@ -43,6 +45,36 @@ class User {
         return userinfo;
       } else {
         print("Aucun utilisateur trouvé avec l'e-mail: $email");
+        return null;
+      }
+    } catch (e) {
+      print("Erreur lors de la récupération des données : $e");
+      return null;
+    }
+  }
+
+  static Future<User?> getUserInfoFromId(String id) async {
+    var db = DbConnect().dbref;
+    var userCollection = db.collection('Users');
+
+    User userinfo;
+    ObjectId idToObjectId = ObjectId.fromHexString(id);
+
+    try {
+      var userData = await userCollection.findOne(where.eq("_id", idToObjectId));
+      if (userData != null) {
+        userinfo = User(
+            id: userData['_id'],
+            firstname: userData['firstname'],
+            lastname: userData['lastname'],
+            age: userData['age'],
+            phonenumbers: userData['phonenumber'],
+            ffe: userData['ffe'],
+            email: userData['email']);
+
+        return userinfo;
+      } else {
+        print("Aucun utilisateur trouvé avec l'id: $id");
         return null;
       }
     } catch (e) {

@@ -6,6 +6,7 @@ import 'package:flutter_mlp/class/event.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../class/app_colors.dart';
+import '../class/users/user.dart';
 
 class TimelineCalendarPage extends StatefulWidget {
   const TimelineCalendarPage({Key? key, }) : super(key: key);
@@ -23,7 +24,17 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
   DateTime? selectedCalendarDate;
 
   late Map<DateTime, List<Event>>? _mySelectedEvents;
+  late User? _userInfo;
   bool _coursLoaded = false;
+  bool _userLoaded = false;
+
+  Future<void> _getUserInfo() async {
+    User? userInfo = await User.getUserInfo('alice@example.com');
+    setState(() {
+      _userInfo = userInfo;
+      _userLoaded = true;
+    });
+  }
 
   Future<void> _getCoursInfo() async {
     Map<DateTime, List<Event>>? mySelectedEvents = await Event.getAllEventsTimed();
@@ -38,8 +49,9 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
     selectedCalendarDate = _focusedCalendarDate;
     super.initState();
 
-    Future.delayed(const Duration(seconds: 3), () async {
+    Future.delayed(const Duration(seconds: 5), () async {
       await _getCoursInfo();
+      await _getUserInfo();
     });
   }
 
@@ -113,7 +125,9 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
                 eventLoader: _listOfDayEvents,
                 onFormatChanged: (format) {
                   setState(() {
-                    sortMethod = Sort.values[sortMethod.index == Sort.values.length - 1 ? 0 : sortMethod.index + 1];
+                    sortMethod = Sort.values[
+                      sortMethod.index == Sort.values.length - 1 ?
+                      0 : sortMethod.index + 1];
                   });
                 },
                 // Calendar Header Styling
@@ -163,8 +177,31 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
                     color: AppColors().selectedItemColor,
                     shape: BoxShape.circle,
                   ),
-                  markerDecoration: BoxDecoration(
-                      color: AppColors().bgColor, shape: BoxShape.circle),
+                ),
+                calendarBuilders: CalendarBuilders(
+                  markerBuilder: (context, day, events) => events.isNotEmpty
+                      ? ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: events.length >= 4 ? 4 : events.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: const EdgeInsets.only(top: 40),
+                            padding: const EdgeInsets.all(1),
+                            child: Container(
+                              // height: 10,
+                              width: 13,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color:  (events[index] as Event).users != null && _userLoaded ?
+                                  (events[index] as Event).users!.contains(_userInfo?.id) ?
+                                  AppColors().selectedItemColor :
+                                  AppColors().bgColor :
+                                  AppColors().bgColor
+                              ),
+                          ));
+                        })
+                            : null,
                 ),
                 selectedDayPredicate: (currentSelectedDate) {
                   // as per the documentation 'selectedDayPredicate' needs to determine
@@ -187,16 +224,27 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
                   (event) => ListTile(
                 leading: Icon(
                   Icons.done,
-                  color: AppColors().selectedItemColor,
+                  color: event.users != null && _userLoaded ? event.users
+                  !.contains(_userInfo?.id) ?
+                  AppColors().selectedItemColor : AppColors().bgColor : AppColors().bgColor,
                 ),
                 title: Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Text("Type:   ${event.type}"),
                 ),
                 subtitle: Text('Discipline:   ${event.discipline}'),
-                    trailing: Text('Heure: ${event.time != null ?
-                    DateFormat('kk:mm').format(event.time as DateTime) : 'Heure non planifiée'
-                    }'),
+                    trailing: Column(
+                      children: [
+                        Text('Heure: ${event.time != null ?
+                        DateFormat('kk:mm').format(event.time as DateTime)
+                            : 'Heure non planifiée'
+                        }'),
+                        event.users != null && _userLoaded ? Text('Participation: ${event.users
+                          !.contains(_userInfo?.id) ?
+                          'Oui' : 'Non'
+                        }') : const Text('')
+                      ],
+                    ),
               ),
             ),
           ],

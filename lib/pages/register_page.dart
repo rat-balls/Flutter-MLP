@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mlp/pages/login_page.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -25,12 +26,6 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Inscription'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () =>  Navigator.pushNamed(context, '/login'),
-          ),
-        ],
       ),
       
       body:
@@ -73,6 +68,20 @@ class _RegisterPageState extends State<RegisterPage> {
                   onChanged: (value) => password = value,
                   validator: (value) => value!.isEmpty ? 'Champ requis' : null,
                   decoration: InputDecoration(labelText: 'Mot de passe'),
+                ),
+                   ElevatedButton(
+                onPressed: () {
+
+                  },
+                  child: Text('Inscription'),
+                ),
+                TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => LoginPage()),
+                  );
+                },
+                child: Text('Se connecter'),
                 ), 
               ],
             ),

@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mlp/class/auth.dart';
 import 'package:flutter_mlp/database/db_class.dart';
 // import 'package:flutter_mlp/pages/home_page.dart';
 import 'package:flutter_mlp/widgets/controllerPage.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => UserProvider(),
+      child :  MyApp()
+    )
+  );
 }
 
 class MyApp extends StatefulWidget {

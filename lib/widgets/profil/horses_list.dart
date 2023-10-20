@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mlp/class/users/horse.dart';
 import 'package:flutter_mlp/class/user_profil/user_profil.dart';
 import 'package:flutter_mlp/class/users/user.dart';
-import 'package:flutter_mlp/widgets/edit_horse_form.dart';
-import 'package:flutter_mlp/widgets/horse_card.dart';
+import 'package:flutter_mlp/widgets/profil/edit_horse_form.dart';
+import 'package:flutter_mlp/widgets/profil/horse_card.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mango;
 
 class HorseListWidget extends StatefulWidget {

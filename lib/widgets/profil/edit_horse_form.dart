@@ -3,7 +3,7 @@ import 'package:flutter_mlp/class/users/horse.dart';
 import 'package:flutter_mlp/class/user_profil/user_profil.dart';
 
 class EditHorseForm extends StatefulWidget {
-  const EditHorseForm({Key? key, required this.horse}) : super(key: key);
+  const EditHorseForm({super.key, required this.horse});
   final Horse horse;
 
   @override
@@ -115,6 +115,7 @@ class _EditHorseFormState extends State<EditHorseForm> {
                       .toList(),
                 );
                 Horse.updateHorseInfo(updatedHorse);
+                Navigator.pop(context);
               }
             },
             child: const Text('Modifier'),

@@ -19,7 +19,7 @@ class EventsPage extends StatelessWidget {
                     children: [
                       Expanded(
                           child: Card(
-                        color: const Color.fromARGB(255, 232, 232, 237),
+                        color: Color.fromARGB(255, 241, 241, 242),
                         clipBehavior: Clip.hardEdge,
                         child: InkWell(
                           onTap: () {
@@ -41,7 +41,7 @@ class EventsPage extends StatelessWidget {
                       )),
                       Expanded(
                           child: Card(
-                        color: const Color.fromARGB(255, 232, 232, 237),
+                        color: Color.fromARGB(255, 241, 241, 242),
                         clipBehavior: Clip.hardEdge,
                         child: InkWell(
                           onTap: () {
@@ -64,7 +64,7 @@ class EventsPage extends StatelessWidget {
                       )),
                       Expanded(
                           child: Card(
-                        color: const Color.fromARGB(255, 232, 232, 237),
+                        color: Color.fromARGB(255, 241, 241, 242),
                         clipBehavior: Clip.hardEdge,
                         child: InkWell(
                           onTap: () {
