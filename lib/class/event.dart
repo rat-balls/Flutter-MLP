@@ -76,6 +76,7 @@ class Event {
         'creator': event.creator,
         'etat': event.etat,
         'place': event.place,
+        'horses': event.horses,
       });
       print('$event inséré');
     } catch (e) {

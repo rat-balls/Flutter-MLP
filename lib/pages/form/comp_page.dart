@@ -238,6 +238,7 @@ class _FormCompetitionPageState extends State<FormCompetitionPage> {
                         '65312da9f80d5aa0c3badc89'),
                     users: selectedUser!.isEmpty ? selectedUser : [],
                     place: _adress,
+                    horses: [],
                     discipline: _name.isEmpty ? "Ma Compétition" : _name);
                 newEvent.insertCompetition(newEvent);
                 Navigator.of(context).pop();
