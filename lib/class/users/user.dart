@@ -233,6 +233,21 @@ Future<void> userRegister(User user) async{
   }
 
 }
+static Future<Map<String, bool>> checkUniqueData(
+      String email) async {
+    try {
+      var db = DbConnect().dbref;
+  var collection = db.collection('Users');
+      var emailExists = await collection.findOne({"email": email}) != null;
+
+
+      print('$emailExists');
+      return {"emailExists": emailExists};
+    } catch (e) {
+      print('Error checking user existence: $e');
+      return {"usernameExists": false, "emailExists": false};
+    }
+  }
 
 static Future<bool> loginUser(String email, String password) async {
   var db = DbConnect().dbref;
@@ -248,7 +263,6 @@ static Future<bool> loginUser(String email, String password) async {
     print('La connexion a exhoue $e');
     return false;
   }
-
 
 }
     

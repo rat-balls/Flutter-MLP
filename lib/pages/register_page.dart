@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mlp/class/users/user.dart';
+import 'package:flutter_mlp/database/db_class.dart';
 import 'package:flutter_mlp/pages/login_page.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -19,6 +20,8 @@ class _RegisterPageState extends State<RegisterPage> {
   var phonenumberController = TextEditingController();
   var passwordController = TextEditingController();
   // pp
+
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -62,21 +65,31 @@ class _RegisterPageState extends State<RegisterPage> {
               decoration: InputDecoration(labelText: 'Email'),
             ),
             TextFormField(
+              obscureText: true,
               controller: passwordController,
               validator: (value) => value!.isEmpty ? 'Champ requis' : null,
               decoration: InputDecoration(labelText: 'Mot de passe'),
             ),
             ElevatedButton(
-              onPressed: () {
-                           User newUser = User(
+              onPressed: () async {
+                    var db = DbConnect().dbref;
+                    String email = emailController.text;
+                    var uniqueData = await User.checkUniqueData(email);
+                    User newUser = User(
                     firstname: firstnameController.text,
                     lastname: lastnameController.text,
                     age: ageController.text,
                     phonenumbers: phonenumberController.text,
                     ffe: ffeController.text,
                     email: emailController.text);
-
-                    newUser.userRegister(newUser);
+              if (uniqueData["emailExists"] == false){
+                 newUser.userRegister(newUser);
+                 print("test");
+              }else if(uniqueData["emailExists"] == true) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Email deja utilisee')));
+                    print('user non inscrit');
+              }
+                   
               },
               child: Text('Inscription'),
             ),
