@@ -93,8 +93,9 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
+    return Container(
+      color: const Color.fromARGB(255, 197, 224, 255),
+      child: SingleChildScrollView(
         child: Column(
           children: [
             Card(
