@@ -3,6 +3,7 @@ import 'package:flutter_mlp/class/users/horse.dart';
 import 'package:flutter_mlp/class/users/user.dart';
 import 'package:flutter_mlp/widgets/controllerPage.dart';
 import 'package:flutter_mlp/widgets/profil/edit_horse_form.dart';
+import 'package:flutter_mlp/pages/profil_page.dart';
 
 class SectionWidget extends StatelessWidget {
   SectionWidget(
@@ -90,6 +91,12 @@ class SectionWidget extends StatelessWidget {
                                                 onPressed: () {
                                                   User.associateUserWithHorse(
                                                       horse.id, user.id);
+                                                  Navigator.pushReplacement(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            ProfilPage()),
+                                                  );
                                                 },
                                                 child: const Text("Acheter"),
                                               ),
@@ -110,6 +117,12 @@ class SectionWidget extends StatelessWidget {
                                                 onPressed: () {
                                                   User.addUserToHorseDp(
                                                       horse.id, user.id);
+                                                  Navigator.pushReplacement(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            ProfilPage()),
+                                                  );
                                                 },
                                                 child: const Text("Louer"),
                                               ),
@@ -145,7 +158,7 @@ class SectionWidget extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 20,
                               )
                             ],

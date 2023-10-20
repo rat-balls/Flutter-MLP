@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mlp/class/users/horse.dart';
 import 'package:flutter_mlp/class/users/user.dart';
 import 'package:flutter_mlp/class/user_profil/user_profil.dart';
+import 'package:flutter_mlp/widgets/profil/add_horse_form.dart';
 import 'package:flutter_mlp/widgets/profil/section_widget.dart';
 import 'package:flutter_mlp/widgets/profil/user_card.dart';
 
@@ -80,6 +81,23 @@ class _ProfilPageState extends State<ProfilPage> {
             ? ListView(
                 children: [
                   UserCard(user: _user!),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          shape: const ContinuousRectangleBorder(),
+                          backgroundColor:
+                              const Color.fromARGB(255, 247, 184, 247)),
+                      onPressed: () => showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text("Modification du profil"),
+                                content: AddHorseForm(
+                                  user: _user!,
+                                ),
+                              );
+                            },
+                          ),
+                      child: const Text("Ajouter un cheval")),
                   SectionWidget(
                     title: "Mes Chevaux",
                     dataLoaded: _ownedHorsesDataLoaded,

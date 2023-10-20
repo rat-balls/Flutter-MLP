@@ -17,20 +17,35 @@ class UserCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.all(16),
+      surfaceTintColor: Colors.white,
+      shape: const LinearBorder(bottom: LinearBorderEdge()),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [
-            Container(
-              color: const Color.fromARGB(255, 247, 184, 247),
-              child: const Icon(Icons.person),
+            ClipOval(
+              child: Container(
+                padding: const EdgeInsets.all(8.0),
+                color: const Color.fromARGB(255, 247, 184, 247),
+                child: const Icon(
+                  Icons.person,
+                  size: 64,
+                  color: Color.fromRGBO(0, 0, 0, 0.5),
+                ),
+              ),
+            ),
+            const SizedBox(
+              width: 16,
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 16),
-                Text('${user.firstname} ${user.lastname}'),
+                Text(
+                  '${user.firstname} ${user.lastname}',
+                  style: const TextStyle(
+                      fontSize: 24, fontWeight: FontWeight.bold),
+                ),
                 Text('${user.age} ans'),
                 Text(user.phonenumbers),
                 Text(user.email),
@@ -42,7 +57,12 @@ class UserCard extends StatelessWidget {
                     'FFE: ${user.ffe}',
                   ),
                 ),
-                ElevatedButton(
+                OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                        foregroundColor: const Color.fromARGB(255, 160, 0, 218),
+                        side: const BorderSide(
+                            width: 1.0,
+                            color: Color.fromARGB(255, 160, 0, 218))),
                     onPressed: () => showDialog(
                           context: context,
                           builder: (BuildContext context) {
