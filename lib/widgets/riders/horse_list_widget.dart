@@ -31,20 +31,25 @@ class HorsesListWidget extends StatelessWidget {
                 scrollDirection: Axis.vertical,
                 child: Column(
                   children: horsesList.map((horse) {
-                    return Card(
-                      child: Row(
-                        children: [
-                          const Icon(Icons.person),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("${horse.name}"),
-                              Text("${horse.age} ans"),
-                              Text(
-                                  "Spécialités: ${horse.specialties.join(', ')}")
-                            ],
-                          )
-                        ],
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Card(
+                        shape: const ContinuousRectangleBorder(),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.person),
+                            const SizedBox(width: 10),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("${horse.name}"),
+                                Text("${horse.age} ans"),
+                                Text(
+                                    "Spécialités: ${horse.specialties.join(', ')}")
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                     );
                   }).toList(),

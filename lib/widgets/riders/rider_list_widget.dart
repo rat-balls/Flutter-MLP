@@ -32,17 +32,22 @@ class RiderListWidget extends StatelessWidget {
                 child: Column(
                   children: riderList.map((rider) {
                     return Card(
-                      child: Row(
-                        children: [
-                          const Icon(Icons.person),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("${rider.firstname} ${rider.lastname}"),
-                              Text("${rider.age} ans")
-                            ],
-                          )
-                        ],
+                      shape: const ContinuousRectangleBorder(),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.person),
+                            const SizedBox(width: 10),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("${rider.firstname} ${rider.lastname}"),
+                                Text("${rider.age} ans")
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                     );
                   }).toList(),
