@@ -40,8 +40,8 @@ class User {
             age: userData['age'],
             phonenumbers: userData['phonenumber'],
             ffe: userData['ffe'],
-            email: userData['email']);
-
+            email: userData['email'],
+            isAdmin: userData['isAdmin']);
         return userinfo;
       } else {
         print("Aucun utilisateur trouvé avec l'e-mail: $email");
@@ -61,7 +61,8 @@ class User {
     ObjectId idToObjectId = ObjectId.fromHexString(id);
 
     try {
-      var userData = await userCollection.findOne(where.eq("_id", idToObjectId));
+      var userData =
+          await userCollection.findOne(where.eq("_id", idToObjectId));
       if (userData != null) {
         userinfo = User(
             id: userData['_id'],

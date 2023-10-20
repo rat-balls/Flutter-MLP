@@ -36,7 +36,7 @@ class _AdminPageState extends State<AdminPage> {
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(seconds: 5), () async {
+    Future.delayed(const Duration(seconds: 3), () async {
       await _getEvents();
     });
   }
@@ -49,10 +49,18 @@ class _AdminPageState extends State<AdminPage> {
           titleTextStyle: const TextStyle(fontSize: 18),
           backgroundColor: const Color.fromARGB(255, 247, 184, 247),
         ),
-        body: Stack(
-          children: <Widget>[
-            if (_eventsDataLoaded) EventListWidget(eventList: _valideEvents),
-          ],
+        body: Container(
+          color: const Color.fromARGB(255, 197, 224, 255),
+          child: _eventsDataLoaded
+              ? Stack(
+                  children: <Widget>[
+                    if (_eventsDataLoaded)
+                      EventListWidget(eventList: _valideEvents),
+                  ],
+                )
+              : const Center(
+                  child: CircularProgressIndicator(),
+                ),
         ),
         bottomNavigationBar: BottomAppBar(
           color: const Color.fromARGB(255, 247, 184, 247),
