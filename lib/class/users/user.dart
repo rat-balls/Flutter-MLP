@@ -24,7 +24,7 @@ class User extends ChangeNotifier {
   String ffe;
   String email;
   String? password;
-  bool isAuthenticated = false;
+  static bool isAuthenticated = false;
 
   static late User currentUser;
 
@@ -294,7 +294,9 @@ class User extends ChangeNotifier {
             ffe: result["ffe"],
             email: result["email"],
             isAdmin: result["isAdmin"]);
+        isAuthenticated = true;
       }
+      currentUser.notifyListeners();
       return result != null;
     } catch (e) {
       print('La connexion a exhoue $e');
