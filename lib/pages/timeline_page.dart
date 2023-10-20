@@ -9,7 +9,9 @@ import '../class/app_colors.dart';
 import '../class/users/user.dart';
 
 class TimelineCalendarPage extends StatefulWidget {
-  const TimelineCalendarPage({Key? key, }) : super(key: key);
+  const TimelineCalendarPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _TimelineCalendarPageState createState() => _TimelineCalendarPageState();
@@ -37,7 +39,8 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
   }
 
   Future<void> _getCoursInfo() async {
-    Map<DateTime, List<Event>>? mySelectedEvents = await Event.getAllEventsTimed();
+    Map<DateTime, List<Event>>? mySelectedEvents =
+        await Event.getAllEventsTimed();
     setState(() {
       _mySelectedEvents = mySelectedEvents;
       _coursLoaded = true;
@@ -49,16 +52,16 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
     selectedCalendarDate = _focusedCalendarDate;
     super.initState();
 
-    Future.delayed(const Duration(seconds: 5), () async {
+    Future.delayed(const Duration(seconds: 2), () async {
       await _getCoursInfo();
       await _getUserInfo();
     });
   }
 
   List<Event> _listOfDayEvents(DateTime dateTime) {
-    if(_coursLoaded) {
-      DateTime? date = DateTime.parse(
-          DateFormat('yyyy-MM-dd').format(dateTime));
+    if (_coursLoaded) {
+      DateTime? date =
+          DateTime.parse(DateFormat('yyyy-MM-dd').format(dateTime));
       List<Event> eventsToReturn = [];
 
       if (sortMethod == Sort.all) {
@@ -126,21 +129,22 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
                 onFormatChanged: (format) {
                   setState(() {
                     sortMethod = Sort.values[
-                      sortMethod.index == Sort.values.length - 1 ?
-                      0 : sortMethod.index + 1];
+                        sortMethod.index == Sort.values.length - 1
+                            ? 0
+                            : sortMethod.index + 1];
                   });
                 },
                 // Calendar Header Styling
                 headerStyle: HeaderStyle(
-                  titleTextStyle:
-                  TextStyle(color: AppColors().unselectedItemColor, fontSize: 20.0),
+                  titleTextStyle: TextStyle(
+                      color: AppColors().unselectedItemColor, fontSize: 20.0),
                   decoration: BoxDecoration(
                       color: AppColors().bgColor,
                       borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(10),
                           topRight: Radius.circular(10))),
-                  formatButtonTextStyle:
-                    TextStyle(color: AppColors().unselectedItemColor, fontSize: 16.0),
+                  formatButtonTextStyle: TextStyle(
+                      color: AppColors().unselectedItemColor, fontSize: 16.0),
                   formatButtonDecoration: BoxDecoration(
                     color: AppColors().selectedItemColor,
                     borderRadius: const BorderRadius.all(
@@ -166,7 +170,8 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
                 // Calendar Dates styling
                 calendarStyle: CalendarStyle(
                   // Weekend dates color (Sat & Sun Column)
-                  weekendTextStyle: TextStyle(color: AppColors().selectedItemColor),
+                  weekendTextStyle:
+                      TextStyle(color: AppColors().selectedItemColor),
                   // highlighted color for today
                   todayDecoration: const BoxDecoration(
                     color: Colors.black45,
@@ -181,27 +186,30 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
                 calendarBuilders: CalendarBuilders(
                   markerBuilder: (context, day, events) => events.isNotEmpty
                       ? ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: events.length >= 4 ? 4 : events.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            margin: const EdgeInsets.only(top: 40),
-                            padding: const EdgeInsets.all(1),
-                            child: Container(
-                              // height: 10,
-                              width: 13,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color:  (events[index] as Event).users != null && _userLoaded ?
-                                  (events[index] as Event).users!.contains(_userInfo?.id) ?
-                                  AppColors().selectedItemColor :
-                                  AppColors().bgColor :
-                                  AppColors().bgColor
-                              ),
-                          ));
-                        })
-                            : null,
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: events.length >= 4 ? 4 : events.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                                margin: const EdgeInsets.only(top: 40),
+                                padding: const EdgeInsets.all(1),
+                                child: Container(
+                                  // height: 10,
+                                  width: 13,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: (events[index] as Event).users !=
+                                                  null &&
+                                              _userLoaded
+                                          ? (events[index] as Event)
+                                                  .users!
+                                                  .contains(_userInfo?.id)
+                                              ? AppColors().selectedItemColor
+                                              : AppColors().bgColor
+                                          : AppColors().bgColor),
+                                ));
+                          })
+                      : null,
                 ),
                 selectedDayPredicate: (currentSelectedDate) {
                   // as per the documentation 'selectedDayPredicate' needs to determine
@@ -221,30 +229,30 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
               ),
             ),
             ..._listOfDayEvents(selectedCalendarDate!).map(
-                  (event) => ListTile(
+              (event) => ListTile(
                 leading: Icon(
                   Icons.done,
-                  color: event.users != null && _userLoaded ? event.users
-                  !.contains(_userInfo?.id) ?
-                  AppColors().selectedItemColor : AppColors().bgColor : AppColors().bgColor,
+                  color: event.users != null && _userLoaded
+                      ? event.users!.contains(_userInfo?.id)
+                          ? AppColors().selectedItemColor
+                          : AppColors().bgColor
+                      : AppColors().bgColor,
                 ),
                 title: Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Text("Type:   ${event.type}"),
                 ),
                 subtitle: Text('Discipline:   ${event.discipline}'),
-                    trailing: Column(
-                      children: [
-                        Text('Heure: ${event.time != null ?
-                        DateFormat('kk:mm').format(event.time as DateTime)
-                            : 'Heure non planifiée'
-                        }'),
-                        event.users != null && _userLoaded ? Text('Participation: ${event.users
-                          !.contains(_userInfo?.id) ?
-                          'Oui' : 'Non'
-                        }') : const Text('')
-                      ],
-                    ),
+                trailing: Column(
+                  children: [
+                    Text(
+                        'Heure: ${event.time != null ? DateFormat('kk:mm').format(event.time as DateTime) : 'Heure non planifiée'}'),
+                    event.users != null && _userLoaded
+                        ? Text(
+                            'Participation: ${event.users!.contains(_userInfo?.id) ? 'Oui' : 'Non'}')
+                        : const Text('')
+                  ],
+                ),
               ),
             ),
           ],
@@ -254,9 +262,4 @@ class _TimelineCalendarPageState extends State<TimelineCalendarPage> {
   }
 }
 
-enum Sort {
-  all,
-  cours,
-  soiree,
-  concours
-}
+enum Sort { all, cours, soiree, concours }
