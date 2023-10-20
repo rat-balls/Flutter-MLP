@@ -123,6 +123,8 @@ class Event {
         'date': event.date,
         'creator': event.creator,
         'etat': event.etat,
+        'users': event.users,
+        'horses': event.horses,
       });
     } catch (e) {
       print('erreur : $e');
