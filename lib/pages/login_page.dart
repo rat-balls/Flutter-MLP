@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mlp/class/auth.dart';
+import 'package:flutter_mlp/class/users/user.dart';
 import 'package:flutter_mlp/database/db_class.dart';
 import 'package:flutter_mlp/pages/home_page.dart';
 import 'package:flutter_mlp/pages/register_page.dart';
@@ -14,10 +15,8 @@ class LoginPage extends StatefulWidget{
 class LoginPageState extends State<LoginPage>{
   final List<User> users = [];
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final TextEditingController nameController = TextEditingController() ;
-  final TextEditingController passwordController = TextEditingController() ;
-
-  
+  var emailController = TextEditingController() ;
+  var passwordController = TextEditingController() ;
  
   @override
   Widget build(BuildContext context) {
@@ -34,32 +33,32 @@ class LoginPageState extends State<LoginPage>{
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextFormField(
-                  onChanged: (value) => nameController,
+                  controller: emailController,
                   validator: (value) => value!.isEmpty ? 'Champ requis' : null,
                   decoration: InputDecoration(labelText: 'Veuillez saisir votre email'),
                 ),
                 TextFormField(
-                  onChanged: (value) => passwordController,
+                  controller: passwordController,
                   validator: (value) => value!.isEmpty ? 'Champ requis' : null,
-                  decoration: InputDecoration(labelText: 'Veuillez saisir votre mot de passe'),
+                  decoration: const InputDecoration(labelText: 'Veuillez saisir votre mot de passe'),
                 ),
                 ElevatedButton(
                 onPressed: () async {
-                
+                    
                     print("Clicked");
-                    bool isAuthenticated = await DbConnect.loginUser(
-                      context,
-                      nameController.text,
+                    bool isAuthenticated = await User.loginUser(
+  
+                      emailController.text,
                       passwordController.text,
                     );  
                     if (isAuthenticated) {
-                      // Provider.of<UserProvider>(context, listen: false).setUser(users);
-                        print("test");
-                        Navigator.pushNamed(context, '/');
+                        print("user connected");
+                        print(User.currentUser.id);
+                        
     
                     } else {
                       print("test2");
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Nom d\'utilisateur ou mot de passe incorrect')),);}
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Nom d\'utilisateur ou mot de passe incorrect')),);}
                 
                 },
                 

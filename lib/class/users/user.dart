@@ -1,8 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_mlp/class/users/horse.dart';
 import 'package:flutter_mlp/database/db_class.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
-class User {
+class User extends ChangeNotifier {
   User(
       {this.id,
       this.isAdmin = false,
@@ -23,6 +24,9 @@ class User {
   String ffe;
   String email;
   String? password;
+  bool isAuthenticated = false;
+
+  static late User currentUser;
 
   static Future<User?> getUserInfo(String email) async {
     var db = DbConnect().dbref;
@@ -251,6 +255,50 @@ class User {
     } catch (e) {
       return isDeleted = false;
       print('Erreur lors de la suppression de l\'utilisateur : $e');
+    }
+  }
+
+  Future<void> userRegister(User user) async {
+    var db = DbConnect().dbref;
+    var collection = db.collection('Users');
+    try {
+      await collection.insertOne({
+        'firstname': user.firstname,
+        'lastname': user.lastname,
+        'age': user.age,
+        'ffe': user.ffe,
+        'phonenumber': user.phonenumbers,
+        'password': user.password,
+        'email': user.email,
+        'isAdmin': user.isAdmin,
+      });
+      print("User inscrit");
+    } catch (e) {
+      print('Erreur lors de l\'inscription: $e');
+    }
+  }
+
+  static Future<bool> loginUser(String email, String password) async {
+    var db = DbConnect().dbref;
+    var collection = db.collection('Users');
+    try {
+      var result = await collection
+          .findOne(where.eq("email", email).eq("password", password));
+      if (result != null) {
+        currentUser = User(
+            id: result["_id"],
+            firstname: result["firstname"],
+            lastname: result["lastname"],
+            age: result["age"],
+            phonenumbers: result["phonenumber"],
+            ffe: result["ffe"],
+            email: result["email"],
+            isAdmin: result["isAdmin"]);
+      }
+      return result != null;
+    } catch (e) {
+      print('La connexion a exhoue $e');
+      return false;
     }
   }
 }
