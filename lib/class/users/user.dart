@@ -247,9 +247,11 @@ class User extends ChangeNotifier {
     late bool isDeleted;
     var db = DbConnect().dbref;
     var userCollection = db.collection('Users');
+    var horsesCollection = db.collection('Horses');
 
     try {
       await userCollection.remove(where.eq('_id', userId));
+      await horsesCollection.remove(where.eq('owner', userId));
       return isDeleted = true;
       print('Utilisateur supprimé avec succès');
     } catch (e) {
@@ -275,13 +277,14 @@ class User extends ChangeNotifier {
       print("User inscrit");
     } catch (e) {
       print('Erreur lors de l\'inscription: $e');
-}}
-static Future<Map<String, bool>> checkUniqueData(String email) async {
+    }
+  }
+
+  static Future<Map<String, bool>> checkUniqueData(String email) async {
     try {
       var db = DbConnect().dbref;
-  var collection = db.collection('Users');
+      var collection = db.collection('Users');
       var emailExists = await collection.findOne({"email": email}) != null;
-
 
       print('$emailExists');
       return {"emailExists": emailExists};

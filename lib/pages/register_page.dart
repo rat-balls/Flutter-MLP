@@ -21,8 +21,6 @@ class _RegisterPageState extends State<RegisterPage> {
   var passwordController = TextEditingController();
   // pp
 
- 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,24 +70,25 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             ElevatedButton(
               onPressed: () async {
-                    var db = DbConnect().dbref;
-                    String email = emailController.text;
-                    var uniqueData = await User.checkUniqueData(email);
-                    User newUser = User(
+                var db = DbConnect().dbref;
+                String email = emailController.text;
+                var uniqueData = await User.checkUniqueData(email);
+                User newUser = User(
                     firstname: firstnameController.text,
                     lastname: lastnameController.text,
                     age: ageController.text,
                     phonenumbers: phonenumberController.text,
                     ffe: ffeController.text,
-                    email: emailController.text);
-              if (uniqueData["emailExists"] == false){
-                 newUser.userRegister(newUser);
-                 print("test");
-              }else if(uniqueData["emailExists"] == true) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Email deja utilisee')));
-                    print('user non inscrit');
-              }
-                   
+                    email: emailController.text,
+                    password: passwordController.text);
+                if (uniqueData["emailExists"] == false) {
+                  newUser.userRegister(newUser);
+                  print("test");
+                } else if (uniqueData["emailExists"] == true) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Email deja utilisee')));
+                  print('user non inscrit');
+                }
               },
               child: Text('Inscription'),
             ),
