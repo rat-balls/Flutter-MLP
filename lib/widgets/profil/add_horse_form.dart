@@ -104,6 +104,7 @@ class _AddHorseFormState extends State<AddHorseForm> {
                       .toList(),
                 );
                 Horse.addHorse(newHorse);
+                Navigator.pop(context);
               }
             },
             child: const Text('Ajouter'),

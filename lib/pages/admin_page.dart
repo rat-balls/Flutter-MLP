@@ -36,7 +36,7 @@ class _AdminPageState extends State<AdminPage> {
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(seconds: 3), () async {
+    Future.delayed(const Duration(seconds: 2), () async {
       await _getEvents();
     });
   }

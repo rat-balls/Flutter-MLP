@@ -116,6 +116,7 @@ class _EditHorseFormState extends State<EditHorseForm> {
                       .toList(),
                 );
                 Horse.updateHorseInfo(updatedHorse);
+                Navigator.pop(context);
               }
             },
             child: const Text('Modifier'),

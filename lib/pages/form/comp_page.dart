@@ -173,7 +173,7 @@ class _FormCompetitionPageState extends State<FormCompetitionPage> {
                                               borderRadius:
                                                   BorderRadius.circular(50.0),
                                               child: Image.asset(
-                                                "assets/images/margot.jpeg",
+                                                "assets/images/profil.png",
                                               ),
                                             )),
                                         Expanded(

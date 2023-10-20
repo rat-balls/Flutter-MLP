@@ -92,7 +92,7 @@ class _FormPartyPageState extends State<FormPartyPage> {
                                         Colors.transparent, BlendMode.srcOver)
                                     : const ColorFilter.mode(
                                         Colors.grey, BlendMode.saturation),
-                                child: Image.asset("assets/images/jeu.jpg"),
+                                child: Image.asset("assets/images/apero.jpg"),
                               ),
                             ),
                           ),
@@ -111,7 +111,7 @@ class _FormPartyPageState extends State<FormPartyPage> {
                                         Colors.transparent, BlendMode.srcOver)
                                     : const ColorFilter.mode(
                                         Colors.grey, BlendMode.saturation),
-                                child: Image.asset("assets/images/jeu.jpg"),
+                                child: Image.asset("assets/images/repas.jpg"),
                               ),
                             ),
                           ),
@@ -189,7 +189,7 @@ class _FormPartyPageState extends State<FormPartyPage> {
                                         borderRadius:
                                             BorderRadius.circular(50.0),
                                         child: Image.asset(
-                                          "assets/images/margot.jpeg",
+                                          "assets/images/profil.png",
                                         ),
                                       )),
                                   Expanded(

@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> _getEvents() async {
     List<Event>? valideEventsList = await Event.getValideEvents();
     valideEventsList?.forEach((event) {
-      if(event.date.isBefore(DateTime.now())) {
+      if (event.date.isBefore(DateTime.now())) {
         Event.deleteEvent(event.id);
       }
     });
@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(seconds: 5), () async {
+    Future.delayed(const Duration(seconds: 2), () async {
       await _getEvents();
       await _getUserInfo();
       print(checkAdmin);
@@ -73,6 +73,7 @@ class _HomePageState extends State<HomePage> {
                       visible: _userLoaded ? checkAdmin : false,
                       child: ElevatedButton(
                         onPressed: () {
+                          _getEvents();
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) => AdminPage(),

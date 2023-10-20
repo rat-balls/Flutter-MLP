@@ -100,7 +100,7 @@ class Event {
         'users': event.users,
         'creator': event.creator,
         'etat': event.etat,
-        'horses': event.horses
+        'horses': []
       });
       print('$event inséré');
     } catch (e) {

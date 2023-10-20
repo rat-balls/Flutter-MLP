@@ -63,7 +63,7 @@ class _ProfilPageState extends State<ProfilPage> {
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(seconds: 3), () async {
+    Future.delayed(const Duration(seconds: 2), () async {
       // await _getUserInfo();
       await _getHorses();
       await _getOwnedHorses();
