@@ -205,7 +205,9 @@ class _FormLessonPageState extends State<FormLessonPage> {
                           creator: mongo.ObjectId.fromHexString(
                               '65312da9f80d5aa0c3badc89'),
                           place: listPlace[indexPlace],
-                          discipline: listDiscipline[indexDiscipline]);
+                          discipline: listDiscipline[indexDiscipline],
+                          horses: [],
+                          users: []);
                       newEvent.insertLesson(newEvent);
                       Navigator.pop(context);
                     },

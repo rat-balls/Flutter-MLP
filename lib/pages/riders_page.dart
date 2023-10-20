@@ -18,7 +18,8 @@ class _RidersPageState extends State<RidersPage> {
 
   bool allHorseLoaded = false;
   bool allUserLoaded = false;
-  bool isAdmin = false; // Variable pour suivre si l'utilisateur est administrateur
+  bool isAdmin =
+      false; // Variable pour suivre si l'utilisateur est administrateur
 
   Future<void> _getHorses() async {
     List<Horse>? horseList = await Horse.getHorses();
@@ -53,31 +54,35 @@ class _RidersPageState extends State<RidersPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        allUserLoaded
-            ? RiderListWidget(
-          title: "Liste des cavaliers",
-          riderList: allUser!,
-          isAdmin: isAdmin, // Assurez-vous d'avoir isAdmin dans l'état
-          getUsers: _getUsers, // Passez la fonction de récupération des utilisateurs
-        )
-            : const Center(
-          child: CircularProgressIndicator(),
-        ),
-        allHorseLoaded
-            ? HorsesListWidget(
-          title: "Liste des chevaux",
-          horsesList: allHorse!,
-          isAdmin: isAdmin,
-          getHorses: _getHorses,
-        )
-            : const Center(
-          child: CircularProgressIndicator(),
-        ),
-        if (isAdmin) // Afficher quelque chose si l'utilisateur est administrateur
-          const Text('L\'utilisateur est administrateur'),
-      ],
-    );
+    return Container(
+        color: const Color.fromARGB(255, 197, 224, 255),
+        child: ListView(
+          children: [
+            allUserLoaded
+                ? RiderListWidget(
+                    title: "Liste des cavaliers",
+                    riderList: allUser!,
+                    isAdmin:
+                        isAdmin, // Assurez-vous d'avoir isAdmin dans l'état
+                    getUsers:
+                        _getUsers, // Passez la fonction de récupération des utilisateurs
+                  )
+                : const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+            allHorseLoaded
+                ? HorsesListWidget(
+                    title: "Liste des chevaux",
+                    horsesList: allHorse!,
+                    isAdmin: isAdmin,
+                    getHorses: _getHorses,
+                  )
+                : const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+            if (isAdmin) // Afficher quelque chose si l'utilisateur est administrateur
+              const Text('L\'utilisateur est administrateur'),
+          ],
+        ));
   }
 }
