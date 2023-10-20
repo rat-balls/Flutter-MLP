@@ -40,8 +40,8 @@ class User {
             age: userData['age'],
             phonenumbers: userData['phonenumber'],
             ffe: userData['ffe'],
-            email: userData['email']);
-
+            email: userData['email'],
+            isAdmin: userData['isAdmin']);
         return userinfo;
       } else {
         print("Aucun utilisateur trouvé avec l'e-mail: $email");
@@ -236,5 +236,20 @@ class User {
           'Erreur lors de la récupération des chevaux dans la liste de DP : $e');
     }
     return null;
+  }
+
+  static Future<bool> deleteUser(ObjectId userId) async {
+    late bool isDeleted;
+    var db = DbConnect().dbref;
+    var userCollection = db.collection('Users');
+
+    try {
+      await userCollection.remove(where.eq('_id', userId));
+      return isDeleted = true;
+      print('Utilisateur supprimé avec succès');
+    } catch (e) {
+      return isDeleted = false;
+      print('Erreur lors de la suppression de l\'utilisateur : $e');
+    }
   }
 }
