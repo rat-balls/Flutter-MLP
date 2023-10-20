@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mlp/class/event.dart';
+import 'package:flutter_mlp/class/users/user.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_mlp/pages/admin_page.dart';
 
@@ -55,7 +56,22 @@ class _EventCardState extends State<EventCard> {
             ),
             Container(
               child: widget.event.etat == true
-                  ? null
+                  ? Column(
+                     children: [
+                       Row(
+                         children: [
+                           IconButton(
+                             iconSize: 40,
+                             color: Colors.green,
+                             onPressed: () {
+                               setState(() {
+                                 Event.participateEvent(_event.id, User.currentUser.id);
+                               });
+                             },
+                             icon: Icon(Icons.check),
+                           )
+                         ],
+                       )])
                   : Column(
                       children: [
                         Container(

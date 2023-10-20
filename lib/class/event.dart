@@ -257,4 +257,16 @@ class Event {
       print('Erreur lors de la mise à jour : $e');
     }
   }
+
+  static Future<void> participateEvent(ObjectId? eventId, ObjectId? user) async {
+    var db = DbConnect().dbref;
+    var eventCollection = db.collection('Events');
+    try {
+      await eventCollection.update(
+          where.eq('_id', eventId), modify.addToSet('users', user));
+      print('Evenement accepter');
+    } catch (e) {
+      print('Erreur lors de la mise à jour : $e');
+    }
+  }
 }
