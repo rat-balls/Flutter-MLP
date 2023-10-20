@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
       }
     });
     valideEventsList = await Event.getValideEvents();
-    valideEventsList?.sort((e1, e2) => e1.date.compareTo(e2.date));
+    valideEventsList?.sort((e2, e1) => e1.date.compareTo(e2.date));
     setState(() {
       _valideEvents = valideEventsList;
       _eventsDataLoaded = true;
